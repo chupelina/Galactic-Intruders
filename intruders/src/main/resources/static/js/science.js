@@ -1,10 +1,11 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
 
-const response = await fetch("http://localhost:8080/science/api")
+const response = await fetch("http://localhost:8080/api/science")
 const scienceProjects = await response.json();
 
 let allCards = () => Object.entries(scienceProjects).map(([k, v]) => {
+    console.log(v);
     let button;
     let time = convertTime(v.time);
     if (sessionStorage.getItem('science-clicked-on')) {
@@ -56,7 +57,7 @@ container.addEventListener('click', async (e) => {
                 }
                 return;
             }
-            sendData("http://localhost:8080/science/api/" + e.target.id);
+            sendData("http://localhost:8080/api/science/" + e.target.id);
             let time = e.target.parentNode.children[3].children[0].textContent;
             sessionStorage.setItem('science-clicked-on', (new Date).toString());
             sessionStorage.setItem('science-seconds-waiting', time);

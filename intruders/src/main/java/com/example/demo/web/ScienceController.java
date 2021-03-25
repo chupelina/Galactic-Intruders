@@ -1,24 +1,26 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
+import com.example.demo.services.ScienceService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ScienceController {
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
+    private final PlanetModelInfo planetModelInfo;
+    private final ScienceService scienceService;
 
-    public ScienceController(OwnMaterialsServiceModel ownMaterialsServiceModel) {
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel;
+    public ScienceController(PlanetModelInfo planetModelInfo, ScienceService scienceService) {
+
+        this.planetModelInfo = planetModelInfo;
+        this.scienceService = scienceService;
     }
 
     @GetMapping("/science")
     public String getAllScience(Model model){
-        model.addAttribute("ownMaterialsServiceModel",ownMaterialsServiceModel);
+        model.addAttribute("planetModelInfo", planetModelInfo);
         return "science";
     }
 

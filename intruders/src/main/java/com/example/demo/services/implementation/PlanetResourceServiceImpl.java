@@ -1,67 +1,101 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.BankBindingModel;
+import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetResourceEntity;
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
+import com.example.demo.models.entities.enums.MaterialEnum;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
+import com.example.demo.models.serviceModels.PlanetResourceServiceModel;
+import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.repositories.PlanetResourceRepository;
 import com.example.demo.services.PlanetResourceService;
+import com.example.demo.services.PlanetService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class PlanetResourceServiceImpl implements PlanetResourceService {
     private final PlanetResourceRepository planetResourceRepository;
+    private final PlanetModelInfo planetModelInfo;
     private final ModelMapper modelMapper;
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
+    private final PlanetService planetService;
 
-    public PlanetResourceServiceImpl(PlanetResourceRepository planetResourceRepository, OwnMaterialsServiceModel ownMaterialsServiceModel, ModelMapper modelMapper, OwnMaterialsServiceModel ownMaterialsServiceModel1) {
+    public PlanetResourceServiceImpl(PlanetResourceRepository planetResourceRepository,
+                                     PlanetModelInfo planetModelInfo, ModelMapper modelMapper, PlanetService planetService) {
         this.planetResourceRepository = planetResourceRepository;
+        this.planetModelInfo = planetModelInfo;
         this.modelMapper = modelMapper;
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel1;
+        this.planetService = planetService;
     }
 
 
-    public PlanetResourceEntity createPlanetResourceEntity() {
+    private PlanetResourceEntity createPlanetResourceEntity(PlanetEntity planetEntity) {
         PlanetResourceEntity current = seedCurrentResources(new PlanetResourceEntity());
+        current.setPlanetEntity(planetEntity);
         planetResourceRepository.save(current);
         return current;
+
     }
 
     @Override
-    public boolean changeMaterials(BankBindingModel bankBindingModel, PlanetResourceEntity planet) {
+    public PlanetResourceEntity findById(Long planetEntityId) {
+        Optional<PlanetResourceEntity> planetResource = planetResourceRepository.findById(planetEntityId);
+        PlanetResourceEntity  planetResourceEntity;
+        if(planetResource.isEmpty()){
+           planetResourceEntity = createPlanetResourceEntity(planetService.findPlanetById(planetEntityId));
+        }else{
+          planetResourceEntity  = planetResource.get();
+        }
+
+        planetModelInfo.setDiamondCapacity(planetResourceEntity.getDiamondCapacity()).setDiamondForMin(planetResourceEntity.getDiamondForMin()).setDiamondOwn(planetResourceEntity.getDiamondOwn())
+                .setEnergyCapacity(planetResourceEntity.getEnergyCapacity()).setEnergyForMin(planetResourceEntity.getEnergyForMin()).setEnergyOwn(planetResourceEntity.getEnergyOwn())
+                .setMetalCapacity(planetResourceEntity.getMetalCapacity()).setMetalForMin(planetResourceEntity.getMetalForMin()).setMetalOwn(planetResourceEntity.getMetalOwn())
+                .setGasCapacity(planetResourceEntity.getGasCapacity()).setGasForMin(planetResourceEntity.getGasForMin()).setGasOwn(planetResourceEntity.getGasOwn()).setId(planetResourceEntity.getId());
+
+        return planetResourceEntity;
+    }
+
+
+    @Override
+    public boolean changeMaterials(BankBindingModel bankBindingModel, PlanetServiceModel currentPlanet) {
+        PlanetResourceEntity planet = planetResourceRepository.findFirstByPlanetEntity_id(currentPlanet.getId()).orElseThrow();
         try {
-            switch (bankBindingModel.getType()) {
-                case "metal":
+            switch (MaterialEnum.valueOf(bankBindingModel.getType().toUpperCase())) {
+                case METAL:
                     planet.setMetalOwn(decreaseMaterials(planet.getMetalOwn(), bankBindingModel.getCount()));
                     break;
-                case "energy":
+                case ENERGY:
                     planet.setEnergyOwn(decreaseMaterials(planet.getEnergyOwn(), bankBindingModel.getCount()));
                     break;
-                case "gas":
+                case GAS:
                     planet.setGasOwn(decreaseMaterials(planet.getGasOwn(), bankBindingModel.getCount()));
                     break;
-                case "diamond":
+                case DIAMOND:
                     planet.setDiamondOwn(decreaseMaterials(planet.getDiamondOwn(), bankBindingModel.getCount()));
                     break;
             }
-            switch (bankBindingModel.getWanted()) {
-                case "metal":
+            switch (MaterialEnum.valueOf(bankBindingModel.getWanted().toUpperCase())) {
+                case METAL:
                     planet.setMetalOwn(increaseMaterials(planet.getMetalOwn(), bankBindingModel.getCount(), planet.getMetalCapacity()));
                     break;
-                case "energy":
+                case ENERGY:
                     planet.setEnergyOwn(increaseMaterials(planet.getEnergyOwn(), bankBindingModel.getCount(), planet.getEnergyCapacity()));
                     break;
-                case "gas":
+                case GAS:
                     planet.setGasOwn(increaseMaterials(planet.getGasOwn(), bankBindingModel.getCount(), planet.getGasCapacity()));
                     break;
-                case "diamond":
+                case DIAMOND:
                     planet.setDiamondOwn(increaseMaterials(planet.getDiamondOwn(), bankBindingModel.getCount(), planet.getDiamondCapacity()));
                     break;
             }
-            modelMapper.map(planetResourceRepository, OwnMaterialsServiceModel.class);
             planetResourceRepository.save(planet);
+            planetModelInfo.setDiamondCapacity(planet.getDiamondCapacity()).setDiamondForMin(planet.getDiamondForMin()).setDiamondOwn(planet.getDiamondOwn())
+                    .setEnergyCapacity(planet.getEnergyCapacity()).setEnergyForMin(planet.getEnergyForMin()).setEnergyOwn(planet.getEnergyOwn())
+                    .setMetalCapacity(planet.getMetalCapacity()).setMetalForMin(planet.getMetalForMin()).setMetalOwn(planet.getMetalOwn())
+                    .setGasCapacity(planet.getGasCapacity()).setGasForMin(planet.getGasForMin()).setGasOwn(planet.getGasOwn());
             return true;
         } catch (IllegalArgumentException ex) {
             return false;
@@ -71,17 +105,16 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
 
     @Override
     public void decreaseOwns(PlanetResourceEntity planet, int diamond, int energy, int metal, int gas) {
-        planet.setMetalOwn(planet.getMetalOwn()-metal);
-        planet.setDiamondOwn(planet.getDiamondOwn()-diamond);
-        planet.setGasOwn(planet.getGasOwn()-gas);
-        planet.setEnergyOwn(planet.getEnergyOwn()-energy);
+        planet.setMetalOwn(planet.getMetalOwn() - metal);
+        planet.setDiamondOwn(planet.getDiamondOwn() - diamond);
+        planet.setGasOwn(planet.getGasOwn() - gas);
+        planet.setEnergyOwn(planet.getEnergyOwn() - energy);
         planetResourceRepository.save(planet);
-        ownMaterialsServiceModel.setMetalOwn(planet.getMetalOwn());
-        ownMaterialsServiceModel.setGasOwn(planet.getGasOwn());
-        ownMaterialsServiceModel.setEnergyOwn(planet.getEnergyOwn());
-        ownMaterialsServiceModel.setDiamondOwn(planet.getDiamondOwn());
+        planetModelInfo.setDiamondCapacity(planet.getDiamondCapacity()).setDiamondForMin(planet.getDiamondForMin()).setDiamondOwn(planet.getDiamondOwn())
+                .setEnergyCapacity(planet.getEnergyCapacity()).setEnergyForMin(planet.getEnergyForMin()).setEnergyOwn(planet.getEnergyOwn())
+                .setMetalCapacity(planet.getMetalCapacity()).setMetalForMin(planet.getMetalForMin()).setMetalOwn(planet.getMetalOwn())
+                .setGasCapacity(planet.getGasCapacity()).setGasForMin(planet.getGasForMin()).setGasOwn(planet.getGasOwn());
     }
-
 
 
     private static int decreaseMaterials(int first, int second) {

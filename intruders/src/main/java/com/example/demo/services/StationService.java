@@ -9,11 +9,9 @@ import java.util.List;
 public interface StationService {
     void seed();
 
-    List<StationViewModel> getAllStationsByCurrentPlanet(PlanetEntity planetEntity);
+    List<StationViewModel> getAllStationsByCurrentPlanet(long planetEntity);
 
     void updateScienceLevel(Long id);
 
-    void createStations(PlanetEntity planet);
-
-    boolean createOne(AddingBindingModel addingBindingModel);
+    boolean createNewStation(AddingBindingModel addingBindingModel);
 }

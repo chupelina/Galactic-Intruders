@@ -1,8 +1,10 @@
 package com.example.demo.models.serviceModels;
 
-import javax.persistence.Column;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
-public class PlanetInfoServiceModel {
+
+public class PlanetResourceServiceModel {
     private long id;
     private int metalCapacity;
     private int gasCapacity;
@@ -12,14 +14,16 @@ public class PlanetInfoServiceModel {
     private int gasForMin;
     private int diamondForMin;
     private int energyForMin;
-    private String name;
-    private String description;
+    private int metalOwn;
+    private int gasOwn;
+    private int diamondOwn;
+    private int energyOwn;
 
     public long getId() {
         return id;
     }
 
-    public PlanetInfoServiceModel setId(long id) {
+    public PlanetResourceServiceModel setId(long id) {
         this.id = id;
         return this;
     }
@@ -28,7 +32,7 @@ public class PlanetInfoServiceModel {
         return metalCapacity;
     }
 
-    public PlanetInfoServiceModel setMetalCapacity(int metalCapacity) {
+    public PlanetResourceServiceModel setMetalCapacity(int metalCapacity) {
         this.metalCapacity = metalCapacity;
         return this;
     }
@@ -37,7 +41,7 @@ public class PlanetInfoServiceModel {
         return gasCapacity;
     }
 
-    public PlanetInfoServiceModel setGasCapacity(int gasCapacity) {
+    public PlanetResourceServiceModel setGasCapacity(int gasCapacity) {
         this.gasCapacity = gasCapacity;
         return this;
     }
@@ -46,7 +50,7 @@ public class PlanetInfoServiceModel {
         return diamondCapacity;
     }
 
-    public PlanetInfoServiceModel setDiamondCapacity(int diamondCapacity) {
+    public PlanetResourceServiceModel setDiamondCapacity(int diamondCapacity) {
         this.diamondCapacity = diamondCapacity;
         return this;
     }
@@ -55,7 +59,7 @@ public class PlanetInfoServiceModel {
         return energyCapacity;
     }
 
-    public PlanetInfoServiceModel setEnergyCapacity(int energyCapacity) {
+    public PlanetResourceServiceModel setEnergyCapacity(int energyCapacity) {
         this.energyCapacity = energyCapacity;
         return this;
     }
@@ -64,7 +68,7 @@ public class PlanetInfoServiceModel {
         return metalForMin;
     }
 
-    public PlanetInfoServiceModel setMetalForMin(int metalForMin) {
+    public PlanetResourceServiceModel setMetalForMin(int metalForMin) {
         this.metalForMin = metalForMin;
         return this;
     }
@@ -73,7 +77,7 @@ public class PlanetInfoServiceModel {
         return gasForMin;
     }
 
-    public PlanetInfoServiceModel setGasForMin(int gasForMin) {
+    public PlanetResourceServiceModel setGasForMin(int gasForMin) {
         this.gasForMin = gasForMin;
         return this;
     }
@@ -82,7 +86,7 @@ public class PlanetInfoServiceModel {
         return diamondForMin;
     }
 
-    public PlanetInfoServiceModel setDiamondForMin(int diamondForMin) {
+    public PlanetResourceServiceModel setDiamondForMin(int diamondForMin) {
         this.diamondForMin = diamondForMin;
         return this;
     }
@@ -91,26 +95,44 @@ public class PlanetInfoServiceModel {
         return energyForMin;
     }
 
-    public PlanetInfoServiceModel setEnergyForMin(int energyForMin) {
+    public PlanetResourceServiceModel setEnergyForMin(int energyForMin) {
         this.energyForMin = energyForMin;
         return this;
     }
 
-    public String getName() {
-        return name;
+    public int getMetalOwn() {
+        return metalOwn;
     }
 
-    public PlanetInfoServiceModel setName(String name) {
-        this.name = name;
+    public PlanetResourceServiceModel setMetalOwn(int metalOwn) {
+        this.metalOwn = metalOwn;
         return this;
     }
 
-    public String getDescription() {
-        return description;
+    public int getGasOwn() {
+        return gasOwn;
     }
 
-    public PlanetInfoServiceModel setDescription(String description) {
-        this.description = description;
+    public PlanetResourceServiceModel setGasOwn(int gasOwn) {
+        this.gasOwn = gasOwn;
+        return this;
+    }
+
+    public int getDiamondOwn() {
+        return diamondOwn;
+    }
+
+    public PlanetResourceServiceModel setDiamondOwn(int diamondOwn) {
+        this.diamondOwn = diamondOwn;
+        return this;
+    }
+
+    public int getEnergyOwn() {
+        return energyOwn;
+    }
+
+    public PlanetResourceServiceModel setEnergyOwn(int energyOwn) {
+        this.energyOwn = energyOwn;
         return this;
     }
 }

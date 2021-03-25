@@ -1,7 +1,7 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
 
-const response = await fetch("http://localhost:8080/ships/api");
+const response = await fetch("http://localhost:8080/api/ships");
 const army = await response.json();
 let allCards = () => Object.entries(army).map(([k, v]) => {
     let button;
@@ -67,7 +67,7 @@ container.addEventListener('click', async (e) => {
         }
         let current = e.target.parentNode.children[3].children[0];
         let time = current.textContent.split(' : ');
-        sendData("http://localhost:8080/ships/api/" + e.target.id + "/" + count)
+        sendData("http://localhost:8080/api/ships/" + e.target.id + "/" + count)
         let seconds = Number(time[0]) * 3600 + Number(time[1]) * 60 + Number(time[2]);
         sessionStorage.setItem('ship-clicked-on', (new Date).toString());
         sessionStorage.setItem('ship-seconds-waiting', (seconds * count) + '');

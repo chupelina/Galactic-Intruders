@@ -1,7 +1,7 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
 
-const response = await fetch("http://localhost:8080/stations/api");
+const response = await fetch("http://localhost:8080/api/stations");
 
 const stations = await response.json();
 
@@ -55,7 +55,7 @@ container.addEventListener('click', async (e) => {
                 }
                 return;
             }
-            sendData("http://localhost:8080/stations/api/" + e.target.id);
+            sendData("http://localhost:8080/api/stations/" + e.target.id);
             let time = e.target.parentNode.children[3].children[0].textContent;
             sessionStorage.setItem('station-clicked-on', (new Date).toString());
             sessionStorage.setItem('station-seconds-waiting', time);

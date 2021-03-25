@@ -9,18 +9,18 @@ import javax.persistence.Table;
 @Table(name = "planet_stations")
 public class PlanetStationEntity extends BaseEntity {
     @ManyToOne
-    private PlanetEntity planetEntity;
+    private PlanetResourceEntity planetResourceEntity;
     @ManyToOne
     private StationEntity stationEntity;
     @Column(nullable = false)
     private Integer level;
 
-    public PlanetEntity getPlanetEntity() {
-        return planetEntity;
+    public PlanetResourceEntity getPlanetResourceEntity() {
+        return planetResourceEntity;
     }
 
-    public PlanetStationEntity setPlanetEntity(PlanetEntity planetEntity) {
-        this.planetEntity = planetEntity;
+    public PlanetStationEntity setPlanetResourceEntity(PlanetResourceEntity planetResourceEntity) {
+        this.planetResourceEntity = planetResourceEntity;
         return this;
     }
 

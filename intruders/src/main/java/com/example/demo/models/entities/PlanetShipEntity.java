@@ -10,18 +10,18 @@ import java.util.List;
 @Table(name="planet_ships")
 public class PlanetShipEntity extends BaseEntity {
     @ManyToOne
-    private PlanetEntity planetEntity;
+    private PlanetResourceEntity planetResourceEntity;
     @ManyToOne
     private ShipEntity shipEntity;
     @Column(nullable = false)
     private Integer countShips;
 
-    public PlanetEntity getPlanetEntity() {
-        return planetEntity;
+    public PlanetResourceEntity getPlanetResourceEntity() {
+        return planetResourceEntity;
     }
 
-    public PlanetShipEntity setPlanetEntity(PlanetEntity planetEntity) {
-        this.planetEntity = planetEntity;
+    public PlanetShipEntity setPlanetResourceEntity(PlanetResourceEntity planetResourceEntity) {
+        this.planetResourceEntity = planetResourceEntity;
         return this;
     }
 

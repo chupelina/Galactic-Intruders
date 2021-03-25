@@ -18,12 +18,9 @@ import java.util.stream.Collectors;
 public class UserSecurity implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PlanetService planetService;
 
-    public UserSecurity(UserRepository userRepository, PlanetService planetService) {
+    public UserSecurity(UserRepository userRepository) {
         this.userRepository = userRepository;
-
-        this.planetService = planetService;
     }
 
 
@@ -31,7 +28,6 @@ public class UserSecurity implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findFirstByUsername(s)
                 .orElseThrow(()->new UsernameNotFoundException("User with this name does not exists!"));
-        planetService.getCurrentPlanet(userEntity.getPlanet());
         return mapUser(userEntity);
     }
 

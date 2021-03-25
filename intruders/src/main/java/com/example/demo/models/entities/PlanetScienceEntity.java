@@ -6,23 +6,24 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "planet_sciences")
 public class PlanetScienceEntity extends BaseEntity {
     @ManyToOne
-    private PlanetEntity planetEntity;
+    private PlanetResourceEntity planetResourceEntity;
     @ManyToOne
     private ScienceEntity scienceEntity;
     @Column(nullable = false)
     private Integer level;
 
-    public PlanetEntity getPlanetEntity() {
-        return planetEntity;
+    public PlanetResourceEntity getPlanetResourceEntity() {
+        return planetResourceEntity;
     }
 
-    public PlanetScienceEntity setPlanetEntity(PlanetEntity planetEntity) {
-        this.planetEntity = planetEntity;
+    public PlanetScienceEntity setPlanetResourceEntity(PlanetResourceEntity planetResourceEntity) {
+        this.planetResourceEntity = planetResourceEntity;
         return this;
     }
 

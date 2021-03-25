@@ -1,7 +1,8 @@
 package com.example.demo.web;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
+import com.example.demo.models.entities.enums.TypeOfMadeEnum;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
 import com.example.demo.services.ScienceService;
 import com.example.demo.services.ShipService;
 import com.example.demo.services.StationService;
@@ -16,16 +17,18 @@ import javax.validation.Valid;
 
 @Controller
 public class AddingController {
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
     private final ShipService shipService;
     private final StationService stationService;
     private final ScienceService scienceService;
+    private final PlanetModelInfo planetModelInfo;
 
-    public AddingController(OwnMaterialsServiceModel ownMaterialsServiceModel, ShipService shipService, StationService stationService, ScienceService scienceService) {
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel;
+
+    public AddingController(ShipService shipService, StationService stationService, ScienceService scienceService, PlanetModelInfo planetModelInfo) {
         this.shipService = shipService;
         this.stationService = stationService;
         this.scienceService = scienceService;
+
+        this.planetModelInfo = planetModelInfo;
     }
 
     @GetMapping("/adding")
@@ -34,7 +37,7 @@ public class AddingController {
             model.addAttribute("addingBindingModel", new AddingBindingModel());
             model.addAttribute("withSameName", false);
         }
-        model.addAttribute("ownMaterialsServiceModel",ownMaterialsServiceModel);
+        model.addAttribute("planetModelInfo", planetModelInfo);
         return "adding";
     }
 
@@ -48,12 +51,12 @@ public class AddingController {
             return "redirect:/adding";
         }
         boolean isOk = false;
-       if(addingBindingModel.getType().equals("ship")){
-         isOk = shipService.createShip(addingBindingModel);
-       }else if(addingBindingModel.getType().equals("science")){
-           isOk = scienceService.createOne(addingBindingModel);
-       }else if(addingBindingModel.getType().equals("station")){
-          isOk= stationService.createOne(addingBindingModel);
+       if(addingBindingModel.getType().toUpperCase().equals(TypeOfMadeEnum.SHIP.name())){
+         isOk = shipService.createNewShip(addingBindingModel);
+       }else if(addingBindingModel.getType().toUpperCase().equals(TypeOfMadeEnum.SCIENCE.name())){
+           isOk = scienceService.createNewScience(addingBindingModel);
+       }else if(addingBindingModel.getType().toUpperCase().equals(TypeOfMadeEnum.STATION.name())){
+          isOk= stationService.createNewStation(addingBindingModel);
        }
        if(isOk){
            return "redirect:/";

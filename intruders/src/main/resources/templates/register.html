@@ -15,25 +15,25 @@
     <form th:action="@{/users/register}" method="post" th:object="${userRegisterBindingModel}">
         <div class="inputs">
             <label form="username">Username: </label>
-            <input type="text" name="username" th:value="*{username}">
+            <input type="text" required minlength="5"  name="username" th:value="*{username}">
             <div th:if="${userAlreadyExists}"><small>Sorry, this user already exists!</small></div>
             <div th:if="${#fields.hasErrors('username')}"><small>Sorry, the username must be at least 5 characters!</small></div>
         </div>
         <div class="inputs">
             <label form="password">Password:</label>
-            <input type="password" name="password">
+            <input type="password" required minlength="5"  name="password">
             <div th:if="${#fields.hasErrors('password')}"><small>Sorry, the password must be at least 5 characters!</small></div>
 
         </div>
         <div class="inputs">
             <label form="confirmPassword">Confirm password:</label>
-            <input type="password" name="confirmPassword">
+            <input type="password" required minlength="5"  name="confirmPassword">
             <div th:if="${notMatchingPassword}"><small>The passwords do not match!</small></div>
 
         </div>
         <div class="inputs">
             <label form="email">Email:</label>
-            <input type="email" name="email" th:value="*{email}">
+            <input type="email" required minlength="5"  name="email" th:value="*{email}">
             <div th:if="${#fields.hasErrors('email')}"><small>Please enter valid email!</small></div>
         </div>
         <div class="links">

@@ -30,7 +30,7 @@
             </p>
         </div>
     </section>
-    <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+    <img id="planetImg" th:object="${planetModelInfo}" th:src="*{imgUrl}">
 </main>
 <th:block th:include="~{fragments/footer}"></th:block>
 </body>

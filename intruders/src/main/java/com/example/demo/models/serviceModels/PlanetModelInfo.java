@@ -1,11 +1,12 @@
-package com.example.demo.models.entities;
+package com.example.demo.models.serviceModels;
 
-import javax.persistence.*;
-import java.util.Map;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
-@Entity
-@Table(name = "planet_resources")
-public class PlanetResourceEntity extends BaseEntity {
+@Component
+@SessionScope
+public class PlanetModelInfo {
+    private long id;
     private int metalCapacity;
     private int gasCapacity;
     private int diamondCapacity;
@@ -18,15 +19,16 @@ public class PlanetResourceEntity extends BaseEntity {
     private int gasOwn;
     private int diamondOwn;
     private int energyOwn;
-    @OneToOne
-    private PlanetEntity planetEntity;
+    private String name;
+    private String imgUrl;
+    private String description;
 
-    public PlanetEntity getPlanetEntity() {
-        return planetEntity;
+    public long getId() {
+        return id;
     }
 
-    public PlanetResourceEntity setPlanetEntity(PlanetEntity planetEntity) {
-        this.planetEntity = planetEntity;
+    public PlanetModelInfo setId(long id) {
+        this.id = id;
         return this;
     }
 
@@ -34,7 +36,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return metalCapacity;
     }
 
-    public PlanetResourceEntity setMetalCapacity(int metalCapacity) {
+    public PlanetModelInfo setMetalCapacity(int metalCapacity) {
         this.metalCapacity = metalCapacity;
         return this;
     }
@@ -43,7 +45,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return gasCapacity;
     }
 
-    public PlanetResourceEntity setGasCapacity(int gasCapacity) {
+    public PlanetModelInfo setGasCapacity(int gasCapacity) {
         this.gasCapacity = gasCapacity;
         return this;
     }
@@ -52,7 +54,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return diamondCapacity;
     }
 
-    public PlanetResourceEntity setDiamondCapacity(int diamondCapacity) {
+    public PlanetModelInfo setDiamondCapacity(int diamondCapacity) {
         this.diamondCapacity = diamondCapacity;
         return this;
     }
@@ -61,7 +63,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return energyCapacity;
     }
 
-    public PlanetResourceEntity setEnergyCapacity(int energyCapacity) {
+    public PlanetModelInfo setEnergyCapacity(int energyCapacity) {
         this.energyCapacity = energyCapacity;
         return this;
     }
@@ -70,7 +72,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return metalForMin;
     }
 
-    public PlanetResourceEntity setMetalForMin(int metalForMin) {
+    public PlanetModelInfo setMetalForMin(int metalForMin) {
         this.metalForMin = metalForMin;
         return this;
     }
@@ -79,7 +81,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return gasForMin;
     }
 
-    public PlanetResourceEntity setGasForMin(int gasForMin) {
+    public PlanetModelInfo setGasForMin(int gasForMin) {
         this.gasForMin = gasForMin;
         return this;
     }
@@ -88,7 +90,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return diamondForMin;
     }
 
-    public PlanetResourceEntity setDiamondForMin(int diamondForMin) {
+    public PlanetModelInfo setDiamondForMin(int diamondForMin) {
         this.diamondForMin = diamondForMin;
         return this;
     }
@@ -97,7 +99,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return energyForMin;
     }
 
-    public PlanetResourceEntity setEnergyForMin(int energyForMin) {
+    public PlanetModelInfo setEnergyForMin(int energyForMin) {
         this.energyForMin = energyForMin;
         return this;
     }
@@ -106,7 +108,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return metalOwn;
     }
 
-    public PlanetResourceEntity setMetalOwn(int metalOwn) {
+    public PlanetModelInfo setMetalOwn(int metalOwn) {
         this.metalOwn = metalOwn;
         return this;
     }
@@ -115,7 +117,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return gasOwn;
     }
 
-    public PlanetResourceEntity setGasOwn(int gasOwn) {
+    public PlanetModelInfo setGasOwn(int gasOwn) {
         this.gasOwn = gasOwn;
         return this;
     }
@@ -124,7 +126,7 @@ public class PlanetResourceEntity extends BaseEntity {
         return diamondOwn;
     }
 
-    public PlanetResourceEntity setDiamondOwn(int diamondOwn) {
+    public PlanetModelInfo setDiamondOwn(int diamondOwn) {
         this.diamondOwn = diamondOwn;
         return this;
     }
@@ -133,8 +135,35 @@ public class PlanetResourceEntity extends BaseEntity {
         return energyOwn;
     }
 
-    public PlanetResourceEntity setEnergyOwn(int energyOwn) {
+    public PlanetModelInfo setEnergyOwn(int energyOwn) {
         this.energyOwn = energyOwn;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public PlanetModelInfo setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public PlanetModelInfo setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public PlanetModelInfo setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

@@ -1,10 +1,8 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
 import com.example.demo.models.viewModels.ScienceViewModel;
 import com.example.demo.services.ScienceService;
-import com.example.demo.services.UserService;
-import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,25 +16,19 @@ import java.util.List;
 @RestController
 public class ScienceRestController {
     private final ScienceService scienceService;
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
-    private final UserService userService;
-    private final Gson gson;
+     private final PlanetModelInfo planetModelInfo;
 
-    public ScienceRestController(ScienceService scienceService, OwnMaterialsServiceModel ownMaterialsServiceModel, UserService userService, Gson gson) {
+    public ScienceRestController(ScienceService scienceService, PlanetModelInfo planetModelInfo) {
         this.scienceService = scienceService;
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel;
-        this.userService = userService;
-        this.gson = gson;
+        this.planetModelInfo = planetModelInfo;
     }
 
-    @GetMapping("/science/api")
-    public String loadAll(Model model) {
-        model.addAttribute("ownMaterialsServiceModel", ownMaterialsServiceModel);
-        List<ScienceViewModel> allScienceProjectsByCurrentPlanet = scienceService.getAllScienceProjectsByCurrentPlanet(userService.findById(ownMaterialsServiceModel.getPlanetId()));
-        return gson.toJson(allScienceProjectsByCurrentPlanet);
+    @GetMapping("/api/science")
+    public List<ScienceViewModel> loadAll(Model model) {
+       return scienceService.getAllScienceProjectsByCurrentPlanet(planetModelInfo.getId());
     }
 
-    @PostMapping("/science/api/{id}")
+    @PostMapping("/api/science/{id}")
     public String getCurrent(@PathVariable Long id) {
         scienceService.updateScienceLevel(id);
         return "redirect:/science";

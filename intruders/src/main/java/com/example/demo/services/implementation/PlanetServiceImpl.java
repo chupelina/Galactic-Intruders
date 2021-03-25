@@ -1,65 +1,49 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.entities.PlanetEntity;
-import com.example.demo.models.entities.PlanetResourceEntity;
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
-import com.example.demo.models.serviceModels.PlanetInfoServiceModel;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
+import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.repositories.PlanetRepository;
 import com.example.demo.services.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
 public class PlanetServiceImpl implements PlanetService {
     private final PlanetRepository planetRepository;
     private final ModelMapper modelMapper;
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
-    private final PlanetResourceService planetResourceService;
-    private final ScienceService scienceService;
-    private final ShipService shipService;
-    private final StationService stationService;
+    private final UserService userService;
+    private final PlanetModelInfo planetModelInfo;
 
-    public PlanetServiceImpl(PlanetRepository planetRepository, ModelMapper modelMapper
-            , OwnMaterialsServiceModel ownMaterialsServiceModel, PlanetResourceService planetResourceService, ScienceService scienceService, ShipService shipService, StationService stationService) {
+    public PlanetServiceImpl(PlanetRepository planetRepository, ModelMapper modelMapper, UserService userService, PlanetModelInfo planetModelInfo) {
         this.planetRepository = planetRepository;
         this.modelMapper = modelMapper;
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel;
-        this.planetResourceService = planetResourceService;
-        this.scienceService = scienceService;
-        this.shipService = shipService;
-        this.stationService = stationService;
+        this.userService = userService;
+        this.planetModelInfo = planetModelInfo;
     }
 
-    public PlanetEntity createPlanet() {
+    private PlanetServiceModel createPlanet(String username) {
         PlanetEntity planet = new PlanetEntity();
         planet.setDescription(getDescription())
                 .setImgUrl(getImageUrl())
                 .setName(getName())
-                .setPlanetResourceEntity(planetResourceService.createPlanetResourceEntity());
+                .setUserEntity(userService.findByUsername(username));
         planetRepository.save(planet);
-        scienceService.createScience(planet);
-        shipService.createArmy(planet);
-        stationService.createStations(planet);
-        return planet;
+        return modelMapper.map(planet, PlanetServiceModel.class);
     }
 
     @Override
-    public PlanetInfoServiceModel getCurrentPlanet(PlanetEntity planetEntity) {
-
-        PlanetResourceEntity planetResourceEntity = planetEntity.getPlanetResourceEntity();
-        PlanetInfoServiceModel planetInfoServiceModel = modelMapper.map(planetResourceEntity, PlanetInfoServiceModel.class);
-        planetInfoServiceModel
-                .setName(planetEntity.getName()).setDescription(planetEntity.getDescription())
-                .setId(planetEntity.getId());
-        ownMaterialsServiceModel.setDiamondOwn(planetResourceEntity.getDiamondOwn())
-                .setEnergyOwn(planetResourceEntity.getEnergyOwn())
-                .setGasOwn(planetResourceEntity.getGasOwn())
-                .setMetalOwn(planetResourceEntity.getMetalOwn()).setImage(planetEntity.getImgUrl())
-        .setPlanetId(planetEntity.getId());
-        return planetInfoServiceModel;
+    public PlanetServiceModel getCurrentPlanet(String username) {
+        Optional<PlanetEntity> planet = planetRepository.findByUserEntity_Username(username);
+        if (planet.isEmpty()) {
+           return createPlanet(username);
+        }
+        planetModelInfo.setDescription(planet.get().getDescription()).setName(planet.get().getName()).setImgUrl(planet.get().getImgUrl());
+        return modelMapper.map(planet.get(), PlanetServiceModel.class);
     }
 
     @Override
@@ -92,7 +76,6 @@ public class PlanetServiceImpl implements PlanetService {
         int current = random.nextInt(descriptions.size());
         return descriptions.get(current);
     }
-
 
 
 }

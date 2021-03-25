@@ -8,4 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlanetRepository extends JpaRepository<PlanetEntity, Long> {
+    Optional<PlanetEntity> findByUserEntity_Username (String username );
 }

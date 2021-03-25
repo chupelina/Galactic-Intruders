@@ -1,7 +1,6 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
-import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetScienceEntity;
 import com.example.demo.models.entities.ScienceEntity;
 import com.example.demo.models.viewModels.ScienceViewModel;
@@ -24,7 +23,8 @@ public class ScienceServiceImpl implements ScienceService {
     private final PlanetScienceRepository planetScienceRepository;
     private final PlanetResourceService planetResourceService;
 
-    public ScienceServiceImpl(ScienceRepository scienceRepository, ModelMapper modelMapper, PlanetScienceRepository planetScienceRepository, PlanetResourceService planetResourceService) {
+    public ScienceServiceImpl(ScienceRepository scienceRepository, ModelMapper modelMapper,
+                              PlanetScienceRepository planetScienceRepository, PlanetResourceService planetResourceService) {
         this.scienceRepository = scienceRepository;
         this.modelMapper = modelMapper;
         this.planetScienceRepository = planetScienceRepository;
@@ -53,10 +53,10 @@ public class ScienceServiceImpl implements ScienceService {
     }
 
     @Override
-    public List<ScienceViewModel> getAllScienceProjectsByCurrentPlanet(PlanetEntity planetEntity) {
+    public List<ScienceViewModel> getAllScienceProjectsByCurrentPlanet(Long planetEntityId) {
         List<ScienceViewModel> out = new ArrayList<>();
 
-        List<PlanetScienceEntity> allScienceProjectsEntity = planetScienceRepository.findAllByPlanetEntity(planetEntity);
+        List<PlanetScienceEntity> allScienceProjectsEntity = planetScienceRepository.findAllByPlanetResourceEntity_Id(planetEntityId);
         List<ScienceEntity> all = scienceRepository.findAll();
         for (ScienceEntity scienceEntity : all) {
             PlanetScienceEntity planetScienceEntity = null;
@@ -68,7 +68,7 @@ public class ScienceServiceImpl implements ScienceService {
             }
             if (planetScienceEntity == null) {
                 planetScienceEntity = new PlanetScienceEntity();
-                planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).setPlanetEntity(planetEntity);
+                planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).setPlanetResourceEntity(planetResourceService.findById(planetEntityId));
                 planetScienceRepository.save(planetScienceEntity);
             }
             ScienceViewModel mapped = new ScienceViewModel();
@@ -87,14 +87,6 @@ public class ScienceServiceImpl implements ScienceService {
         return out;
     }
 
-    public void createScience(PlanetEntity planet) {
-        List<ScienceEntity> allScienceProjects = scienceRepository.findAll();
-        for (int i = 0; i < allScienceProjects.size(); i++) {
-            PlanetScienceEntity planetScienceEntity = new PlanetScienceEntity();
-            planetScienceEntity.setLevel(0).setScienceEntity(allScienceProjects.get(i)).setPlanetEntity(planet);
-            planetScienceRepository.save(planetScienceEntity);
-        }
-    }
 
     @Override
     public void updateScienceLevel(Long id) {
@@ -103,7 +95,7 @@ public class ScienceServiceImpl implements ScienceService {
         ScienceEntity scienceEntity = planetScience.get().getScienceEntity();
         planetScience.get().setLevel(planetScience.get().getLevel()+1);
         planetScienceRepository.save(planetScience.get());
-        planetResourceService.decreaseOwns(planetScience.get().getPlanetEntity().getPlanetResourceEntity(),
+        planetResourceService.decreaseOwns( planetScience.get().getPlanetResourceEntity(),
                 (int)Math.round(scienceEntity.getDiamond()*level),
                 (int)Math.round(scienceEntity.getEnergy()*level), (int)Math.round(scienceEntity.getMetal()*level)
                 , (int)Math.round(scienceEntity.getGas()*level));
@@ -111,7 +103,7 @@ public class ScienceServiceImpl implements ScienceService {
     }
 
     @Override
-    public boolean createOne(AddingBindingModel addingBindingModel) {
+    public boolean createNewScience(AddingBindingModel addingBindingModel) {
         Optional<ScienceEntity> current = scienceRepository.findFirstByName(addingBindingModel.getName());
         if(current.isEmpty()){
             ScienceEntity scienceEntity = modelMapper.map(addingBindingModel, ScienceEntity.class);

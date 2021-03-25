@@ -1,8 +1,8 @@
 package com.example.demo.services.implementation;
 
-import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.UserEntity;
 import com.example.demo.models.entities.UserRoleEntity;
+import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.models.serviceModels.UserRegisterServiceModel;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.services.PlanetService;
@@ -27,15 +27,13 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final UserSecurity userSecurity;
-    private final PlanetService planetService;
 
     public UserServiceImpl(UserRepository userRepository, UserRoleService userRoleService,
-                           PasswordEncoder passwordEncoder, UserSecurity userSecurity, PlanetService planetService) {
+                           PasswordEncoder passwordEncoder, UserSecurity userSecurity) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
         this.passwordEncoder = passwordEncoder;
         this.userSecurity = userSecurity;
-        this.planetService = planetService;
     }
 
     @Override
@@ -48,8 +46,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setEmail("admin@abv.bg")
                 .setUsername("admin")
                 .setPassword(passwordEncoder.encode("admin"))
-                .setRoles(Set.of(userRoleEntity))
-                .setPlanet(planetService.createPlanet());
+                .setRoles(Set.of(userRoleEntity));
         userRepository.save(userEntity);
     }
 
@@ -70,9 +67,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setUsername(userRegisterServiceModel.getUsername())
                 .setPassword(passwordEncoder.encode(userRegisterServiceModel.getPassword()))
                 .setEmail(userRegisterServiceModel.getEmail())
-                .setRoles(Set.of(userRoleService.getRole("USER")))
-                .setPlanet(planetService.createPlanet());
-
+                .setRoles(Set.of(userRoleService.getRole("USER")));
         userRepository.save(userEntity);
         UserDetails principal = userSecurity.loadUserByUsername(userEntity.getUsername());
         Authentication authentication = new UsernamePasswordAuthenticationToken(
@@ -101,8 +96,4 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public PlanetEntity findById(long planetId) {
-        return planetService.findPlanetById(planetId);
-    }
 }

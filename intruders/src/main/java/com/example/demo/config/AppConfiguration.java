@@ -21,9 +21,4 @@ public class AppConfiguration {
         return  new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public Gson gson(){
-        return  new Gson();
-    }
-
 }

@@ -1,10 +1,8 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.OwnMaterialsServiceModel;
+import com.example.demo.models.serviceModels.PlanetModelInfo;
 import com.example.demo.models.viewModels.StationViewModel;
 import com.example.demo.services.StationService;
-import com.example.demo.services.UserService;
-import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,24 +15,19 @@ import java.util.List;
 @Controller
 public class StationRestController {
     private final StationService stationService;
-    private final Gson gson;
-    private final UserService userService;
-    private final OwnMaterialsServiceModel ownMaterialsServiceModel;
+    private final PlanetModelInfo planetModelInfo;
 
-    public StationRestController(StationService stationService, Gson gson, UserService userService, OwnMaterialsServiceModel ownMaterialsServiceModel) {
+    public StationRestController(StationService stationService, PlanetModelInfo planetModelInfo) {
         this.stationService = stationService;
-        this.gson = gson;
-        this.userService = userService;
-        this.ownMaterialsServiceModel = ownMaterialsServiceModel;
+        this.planetModelInfo = planetModelInfo;
     }
 
-    @GetMapping("/stations/api")
-    public String returnAllStations() {
-        List<StationViewModel> allStations = stationService.getAllStationsByCurrentPlanet(userService.findById(ownMaterialsServiceModel.getPlanetId()));
-        return gson.toJson(allStations);
+    @GetMapping("/api/stations")
+    public List<StationViewModel> returnAllStations() {
+       return stationService.getAllStationsByCurrentPlanet(planetModelInfo.getId());
     }
 
-    @PostMapping("/stations/api/{id}")
+    @PostMapping("/api/stations/{id}")
     public String getCurrent(@PathVariable Long id) {
         stationService.updateScienceLevel(id);
         return "redirect:/science";

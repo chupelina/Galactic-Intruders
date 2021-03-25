@@ -46,10 +46,9 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<StationViewModel> getAllStationsByCurrentPlanet(PlanetEntity planetEntity) {
+    public List<StationViewModel> getAllStationsByCurrentPlanet(long planetId) {
         List<StationViewModel> out = new ArrayList<>();
-
-        List<PlanetStationEntity> allStations = planetStationRepository.findAllByPlanetEntity(planetEntity);
+        List<PlanetStationEntity> allStations = planetStationRepository.findAllByPlanetResourceEntity_Id(planetId);
         List<StationEntity> all = stationRepository.findAll();
         for (StationEntity stationEntity: all) {
             PlanetStationEntity planetStationEntity = null;
@@ -61,7 +60,7 @@ public class StationServiceImpl implements StationService {
             }
             if (planetStationEntity == null) {
                 planetStationEntity = new PlanetStationEntity();
-                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetEntity(planetEntity);
+                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetResourceEntity(planetResourceService.findById(planetId));
                 planetStationRepository.save(planetStationEntity);
             }
             StationViewModel mapped = new StationViewModel();
@@ -86,24 +85,14 @@ public class StationServiceImpl implements StationService {
         StationEntity stationEntity = planetStations.get().getStationEntity();
         planetStations.get().setLevel(planetStations.get().getLevel()+1);
         planetStationRepository.save(planetStations.get());
-        planetResourceService.decreaseOwns(planetStations.get().getPlanetEntity().getPlanetResourceEntity(),
+        planetResourceService.decreaseOwns(planetStations.get().getPlanetResourceEntity(),
                 (int)Math.round(stationEntity.getDiamond()*level),
                 (int)Math.round(stationEntity.getEnergy()*level), (int)Math.round(stationEntity.getMetal()*level)
                 , (int)Math.round(stationEntity.getGas()*level));
     }
 
     @Override
-    public void createStations(PlanetEntity planet) {
-        List<StationEntity> allStations = stationRepository.findAll();
-        for (int i = 0; i < allStations.size(); i++) {
-            PlanetStationEntity planetStationEntity = new PlanetStationEntity();
-            planetStationEntity.setLevel(0).setStationEntity(allStations.get(i)).setPlanetEntity(planet);
-            planetStationRepository.save(planetStationEntity);
-        }
-    }
-
-    @Override
-    public boolean createOne(AddingBindingModel addingBindingModel) {
+    public boolean createNewStation(AddingBindingModel addingBindingModel) {
         Optional<StationEntity> current = stationRepository.findFirstByName(addingBindingModel.getName());
         if(current.isEmpty()){
             StationEntity stationEntity = modelMapper.map(addingBindingModel, StationEntity.class);

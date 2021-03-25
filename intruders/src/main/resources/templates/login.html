@@ -16,13 +16,13 @@
     <form th:action="@{/users/login}" method="post"  id="login-form">
         <div class="inputs">
             <label name="username">Username: </label>
-            <input type="text" name="username" id="login-username" th:value="${username}"/>
+            <input type="text" name="username" required minlength="5" id="login-username" th:value="${username}"/>
             <div th:if="${notFound}"><small>Sorry, incorrect password or username!</small></div>
 
         </div>
         <div class="inputs">
             <label name="password">Password:</label>
-            <input type="password" name="password" id="login-password"/>
+            <input type="password" required minlength="5"  name="password" id="login-password"/>
 
         </div>
         <div class="links">

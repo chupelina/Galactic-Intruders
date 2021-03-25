@@ -12,8 +12,6 @@ public class UserEntity extends BaseEntity {
     private String password;
     @Column(nullable = false)
     private String email;
-    @OneToOne
-    private PlanetEntity planet;
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRoleEntity> roles;
 
@@ -53,12 +51,4 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public PlanetEntity getPlanet() {
-        return planet;
-    }
-
-    public UserEntity setPlanet(PlanetEntity planet) {
-        this.planet = planet;
-        return this;
-    }
 }

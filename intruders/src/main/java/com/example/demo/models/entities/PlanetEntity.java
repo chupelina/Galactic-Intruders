@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="planets")
+@Table(name = "planets")
 public class PlanetEntity extends BaseEntity {
     @Column(nullable = false)
     private String name;
@@ -13,8 +13,7 @@ public class PlanetEntity extends BaseEntity {
     @Column(nullable = false)
     private String description;
     @OneToOne
-    private PlanetResourceEntity planetResourceEntity;
-
+    private UserEntity userEntity;
 
     public String getName() {
         return name;
@@ -43,12 +42,13 @@ public class PlanetEntity extends BaseEntity {
         return this;
     }
 
-    public PlanetResourceEntity getPlanetResourceEntity() {
-        return planetResourceEntity;
+
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public PlanetEntity setPlanetResourceEntity(PlanetResourceEntity planetResourceEntity) {
-        this.planetResourceEntity = planetResourceEntity;
+    public PlanetEntity setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
         return this;
     }
 }

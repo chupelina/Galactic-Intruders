@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface PlanetStationRepository extends JpaRepository<PlanetStationEntity, Long> {
-    List<PlanetStationEntity> findAllByPlanetEntity(PlanetEntity planetEntity);
+    List<PlanetStationEntity> findAllByPlanetResourceEntity_Id(Long id);
 }

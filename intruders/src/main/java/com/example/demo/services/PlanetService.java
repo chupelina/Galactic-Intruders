@@ -1,13 +1,10 @@
 package com.example.demo.services;
 
 import com.example.demo.models.entities.PlanetEntity;
-import com.example.demo.models.serviceModels.PlanetInfoServiceModel;
+import com.example.demo.models.serviceModels.PlanetServiceModel;
 
 public interface PlanetService {
-    PlanetEntity createPlanet();
-
-
-    PlanetInfoServiceModel getCurrentPlanet(PlanetEntity planet);
+    PlanetServiceModel getCurrentPlanet(String username);
 
     PlanetEntity findPlanetById(long planetId);
 }
