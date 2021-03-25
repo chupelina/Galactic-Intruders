@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <title>Galactic intruders</title>
+</head>
+
+<body>
+    <div>
+        <h1 class="header"><a href="/">Galactic intruders</a></h1>
+        <p>This is a game, for those, who miss the old times.</p>
+    
+        <a type="submit" th:href="@{/users/login}" >Login</a>
+  
+        <a type="submit" th:href="@{/users/register}" >Register</a>
+    </div>
+    
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/loginRegister.css"/>
+    <title>Register</title>
+</head>
+
+<body>
+<h1><a href="/">Galactic intruders</a></h1>
+<div>
+    <form th:action="@{/users/register}" method="post" th:object="${userRegisterBindingModel}">
+        <div class="inputs">
+            <label form="username">Username: </label>
+            <input type="text" name="username" th:value="*{username}">
+            <div th:if="${userAlreadyExists}"><small>Sorry, this user already exists!</small></div>
+            <div th:if="${#fields.hasErrors('username')}"><small>Sorry, the username must be at least 5 characters!</small></div>
+        </div>
+        <div class="inputs">
+            <label form="password">Password:</label>
+            <input type="password" name="password">
+            <div th:if="${#fields.hasErrors('password')}"><small>Sorry, the password must be at least 5 characters!</small></div>
+
+        </div>
+        <div class="inputs">
+            <label form="confirmPassword">Confirm password:</label>
+            <input type="password" name="confirmPassword">
+            <div th:if="${notMatchingPassword}"><small>The passwords do not match!</small></div>
+
+        </div>
+        <div class="inputs">
+            <label form="email">Email:</label>
+            <input type="email" name="email" th:value="*{email}">
+            <div th:if="${#fields.hasErrors('email')}"><small>Please enter valid email!</small></div>
+        </div>
+        <div class="links">
+            <button type="submit">Register</button>
+        </div>
+    </form>
+
+</div>
+
+
+</body>
+
+</html>

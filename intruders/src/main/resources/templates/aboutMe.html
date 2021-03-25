@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>About me</title>
+</head>
+
+<body>
+<header>
+    <h1 class="header"><a href="/">Galactic intruders</a></h1>
+</header>
+
+<main>
+    <th:block th:include="~{fragments/navigation}"></th:block>
+
+    <section>
+        <div id="about-me">
+            <h1>Hi from Chupelina :)</h1>
+            <p>I came form a small town and wander what to do. Then I met the love of my life and he told me "You are
+                smart. Try to do some code.". After a several years I catch the idea and wrote my first "Hello world",
+                and everything change. I quit my job, start learning and searching. And some time later this come out
+                from my fingers. </p>
+            <p>This is my first project and if you have some feedback feel free to contact me on
+                elizabeth.chupetlovska@yahoo.bg. I will answer as soon as I can. Hope you enjoy the game, stay in touch
+                for future releases.
+            </p>
+        </div>
+    </section>
+    <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+
+</html>

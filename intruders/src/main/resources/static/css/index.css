@@ -1,0 +1,53 @@
+@font-face {
+    font-family: spase;
+    src: url(fonts/RussoOne-Regular.ttf)
+}
+
+
+body {
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/index.jpg);
+    background-repeat: no-repeat;
+    object-fit: contain;
+    background-color: #110D26;
+    color: #ffffff;
+    padding: 0;
+    margin: 0;
+    font-family: spase, sans-serif;
+}
+
+body > div {
+    text-align: right;
+}
+
+h1 > a {
+    font-size: 5rem;;
+    letter-spacing: 1rem;
+    text-decoration: none;
+    color: #fff;
+}
+
+h1 > a:hover {
+    text-decoration: wavy;
+}
+
+body > button {
+    text-align: right;
+}
+
+a {
+    font-size: 2rem;
+    margin: 2rem;
+    padding: 2rem;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    font-family: spase, sans-serif;
+}
+
+a:hover {
+    text-decoration: wavy;
+    text-decoration: underline;
+}
+ 

@@ -1,0 +1,90 @@
+@font-face {
+    font-family: spase;
+    src: url(fonts/RussoOne-Regular.ttf)
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/LoginRegisterHome.jpg);
+    background-repeat: no-repeat;
+    object-fit: contain;
+    background-color: #110D26;
+    color: #ffffff;
+    padding: 0;
+    margin: 0;
+    font-family: spase, sans-serif;
+}
+
+body > div {
+    text-align: center;
+}
+
+div.inputs {
+    font-size: 2rem;
+    margin: 1rem;
+    padding: 1rem;
+    text-shadow: 3px 3px #14003d;
+}
+
+small {
+    font-size: 1rem;
+    text-shadow: 3px 3px #14003d;
+}
+
+h1 {
+    text-align: center;
+    font-size: 4rem;;
+    letter-spacing: 1rem;
+}
+
+h1 > a {
+    text-decoration: none;
+    color: #fff;
+}
+
+div.inputs > input {
+    text-align: center;
+}
+
+div.links > button {
+    color: #fff;
+    font-size: 1.2rem;
+    font-family: spase, sans-serif;
+    background-color: #110d26;
+    border: none;
+    margin: 1rem;
+    padding: 0.5rem;
+    text-align: center;
+    max-width: 10rem;
+    min-width: 10rem;
+    border-radius: 5rem;
+    box-shadow: -3px 4px 5px 3px white;
+    cursor: pointer;
+}
+
+div.links > button:hover {
+    display: inline-block;
+    color: #110d26;
+    background-color: #fff;
+    box-shadow: -3px 4px 5px 3px #110d26;
+    cursor: pointer;
+
+}
+
+#registerBTN {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 2rem;
+}
+
+#registerBTN:hover {
+    color: #110d26;
+}
+
+
+input {
+    padding: 1rem;
+    border-radius: 3rem;
+}
+

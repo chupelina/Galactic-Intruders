@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>My Planet</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="header"><a href="/">Galactic intruders</a></h1>
+    </header>
+
+    <main th:object="${planetInfoModel}">
+        <th:block th:include="~{fragments/navigation}" ></th:block>
+       <section>
+            <div id="myPlanet">
+                <ul id="materials">
+                    <label>Resources :</label>
+                    <li id="metal">Metal</li>
+                    <li id="gas">Gas</li>
+                    <li id="diamond">Diamond</li>
+                    <li id="energy">Energy</li>
+
+                </ul>
+                <ul id="incomesFor24">
+                    <label>Capacity:</label>
+                    <li id="metalIncomeForDay" th:text="*{metalCapacity}">100</li>
+                    <li id="gasIncomeForDay" th:text="*{gasCapacity}">100</li>
+                    <li id="diamondIncomeForDay" th:text="*{diamondCapacity}">100</li>
+                    <li id="energyIncomeForDay" th:text="*{energyCapacity}">100</li>
+                </ul>
+                <ul>
+                    <label>Incomes for minute:</label>
+                    <li id="metalIncomeForM" th:text="*{metalForMin}">10</li>
+                    <li id="gasIncomeForM" th:text="*{gasForMin}">10</li>
+                    <li id="diamondIncomeForM" th:text="*{diamondForMin}">10</li>
+                    <li id="energyIncomeForM" th:text="*{energyForMin}">10</li>
+                </ul>
+            </div>
+            <div id="planetInfo">
+                <h2 th:text="*{name}"></h2>
+                <p th:text="*{description}"></p>
+            </div>
+        </section>
+        <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+   </main>
+    <th:block th:include="~{fragments/footer}" ></th:block>
+</body>
+
+</html>

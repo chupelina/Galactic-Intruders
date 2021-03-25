@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" href="/css/home.css">
+    <script type="module" src="/js/station.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1 class="header"><a href="/">Galactic intruders</a></h1>
+    </header>
+
+    <main>
+        <th:block th:include="~{fragments/navigation}" ></th:block>
+       <section id="card-station">
+
+        </section>
+        <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+   </main>
+    <th:block th:include="~{fragments/footer}" ></th:block>
+</body>
+
+</html>

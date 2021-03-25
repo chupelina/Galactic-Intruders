@@ -1,0 +1,230 @@
+@font-face {
+    font-family: spase;
+    src: url(fonts/RussoOne-Regular.ttf)
+}
+
+
+body {
+    background-image: url(../img/LoginRegisterHome.jpg);
+    object-fit: contain;
+    background-color: #110D26;
+    font-size: 1.2rem;
+    font-family: spase, sans-serif;
+    color: #fff;
+}
+
+.header {
+    font-size: 5rem;
+    letter-spacing: 1rem;
+    text-align: right;
+}
+
+.header > a {
+    text-decoration: none;
+    color: #fff;
+}
+
+nav {
+    float: left;
+    max-width: 18%;
+}
+
+nav > a,  button {
+    display: inline-block;
+    font-size: 1.2rem;
+    font-family: spase, sans-serif;
+    color: #fff;
+    background-color: #110d26;
+    border: none;
+    margin: 1rem;
+    padding: 0.5rem;
+    text-align: left;
+    max-width: 10rem;
+    min-width: 10rem;
+    border-radius: 5rem;
+    box-shadow: -3px 4px 5px 3px white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+nav > a:hover, button:hover {
+    display: inline-block;
+    color: #110d26;
+    background-color: #fff;
+    box-shadow: -3px 4px 5px 3px #110d26;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+div {
+    max-width: 65rem;
+    margin-top: 1rem;
+    margin-left: 3rem;
+    padding: 1rem;
+    border: 3px solid #110d26;
+    background-color: #110d26;
+    border-radius: 3rem;
+    display: inline-block;
+    box-shadow: -4px 4px 5px 3px white;
+}
+
+section {
+    margin-left: 1rem;
+    max-width: 70rem;
+    display: inline-block;
+}
+
+ul {
+    width: 13rem;
+    display: inline-block;
+}
+
+li {
+    list-style-type: none;
+}
+
+label {
+    font-size: 1.2rem;
+    text-decoration: underline white;
+}
+
+#planetInfo > p {
+    word-wrap: normal;
+    width: 47rem;
+    display: inline-block;
+}
+
+img {
+    float: right;
+    vertical-align: super;
+    width: 20rem;
+    border: 3px solid #110d26;
+    border-radius: 5rem;
+    box-shadow: -4px 4px 5px 3px white;
+}
+
+footer {
+    text-align: center;
+    margin: 11rem 1rem 0;
+    border: 3px solid #110d26;
+    background-color: #110d26;
+    border-radius: 5rem;
+    box-shadow: -4px 4px 5px 3px white;
+}
+
+footer > p {
+    display: inline-block;
+    padding: 0 4rem;
+}
+
+div.stations > {
+    max-width: 20rem;
+}
+
+div.stations > p, div.stations > h1, div.science > p, div.science > h1 {
+    text-align: center;
+    max-width: 28rem;
+}
+
+div.stations > button, div.ships > button, div.science > button, div.bank > button {
+    background-color: white;
+    color: #110d26;
+    cursor: pointer;
+}
+
+div.ships > img {
+    height: 13rem;
+}
+
+div.ships > p {
+    width: 60rem;
+    margin: 0;
+}
+
+div.ships > button {
+    margin-right: 5rem;
+    float: right;
+}
+
+option, select, input {
+    background-color: white;
+    font-size: 1.2rem;
+    font-family: spase, sans-serif;
+    color: #110D26;
+    border-radius: 3rem;
+    padding: 0 1rem;
+}
+
+form.bank {
+    text-align: center;
+    width: 60rem;
+    margin: 0;
+}
+
+form {
+    width: 56rem;
+    height: auto;
+    border: 3px solid #110d26;
+    text-align: center;
+    background-color: #110d26;
+    border-radius: 5rem;
+    box-shadow: -4px 4px 5px 3px white;
+}
+
+form > header {
+    padding: 7px;
+}
+
+#changeRole {
+    width: 56rem;
+    height: auto;
+    margin-bottom:24%;
+}
+
+#about-me {
+    max-width: 51rem;
+    margin-bottom: 23%;
+}
+
+#error-page {
+    margin-left: 28%;
+    margin-right: 28%;
+    padding: 4rem;
+}
+
+form.logout {
+    width: 0;
+    height: 0;
+    border: none;
+    text-align: left;
+    border-radius: 0;
+
+}
+main.change-role{
+    margin-bottom: 15rem;
+}
+
+textarea{
+    background-color: white;
+    font-size: 1.2rem;
+    font-family: spase, sans-serif;
+
+    border-radius: 3rem;
+}
+small{
+    color: #E06B7B;
+}
+
+#battle{
+    text-align: center;
+    width: 400px;
+    height: 80px;
+    margin-bottom: 83%;
+}
+#planetInfo{
+    margin-bottom: 12%;
+}
+form.bank{
+    margin-bottom: 24%;
+}

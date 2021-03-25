@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Bank</title>
+</head>
+
+<body>
+<header>
+    <h1 class="header"><a href="/">Galactic intruders</a></h1>
+</header>
+
+<main id="bank-footer">
+    <th:block th:include="~{fragments/navigation}"></th:block>
+    <section>
+        <form th:action="@{/bank}" method="post" class="bank">
+            <h1>Hello there</h1>
+            <p>How much you want to spend</p>
+            <input type="number" name="count">
+            <select name="type">
+                <option>metal</option>
+                <option>gas</option>
+                <option>diamond</option>
+            </select>
+            <p> for that you will receive 80% of what you spend</p>
+            <select name="wanted">
+                <option>metal</option>
+                <option>gas</option>
+                <option>diamond</option>
+            </select>
+            <span th:if="${positive}">
+                Please, enter positive number!
+            </span>
+            <span th:if="${notResource}">
+                Sorry, not enough resources!
+            </span>
+
+
+            <button id="create">Create</button>
+        </form>
+
+    </section>
+    <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+
+</html>

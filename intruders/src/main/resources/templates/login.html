@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="/css/loginRegister.css"/>
+<!--    <script type="module" src="/js/login.js"></script>-->
+    <title>Login</title>
+</head>
+
+<body>
+<h1><a href="/">Galactic intruders</a></h1>
+<div>
+    <form th:action="@{/users/login}" method="post"  id="login-form">
+        <div class="inputs">
+            <label name="username">Username: </label>
+            <input type="text" name="username" id="login-username" th:value="${username}"/>
+            <div th:if="${notFound}"><small>Sorry, incorrect password or username!</small></div>
+
+        </div>
+        <div class="inputs">
+            <label name="password">Password:</label>
+            <input type="password" name="password" id="login-password"/>
+
+        </div>
+        <div class="links">
+            <button type="submit" >Login</button>
+            <button><a th:href="@{/users/register}" id="registerBTN">Register</a></button>
+        </div>
+    </form>
+</div>
+<div id="error"></div>
+
+
+</body>
+
+</html>

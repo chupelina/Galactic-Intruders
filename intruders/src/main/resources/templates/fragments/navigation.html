@@ -1,0 +1,16 @@
+
+<nav id="navigation " xmlns:th="http://www.thymeleaf.org"    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <a th:href="@{/}"> My planet</a>
+    <a th:href="@{/stations}">Stations</a>
+    <a th:href="@{/ships}">Ships</a>
+    <a th:href="@{/science}">Science</a>
+    <a th:href="@{/bank}">Bank</a>
+    <a th:href="@{/battle}">Battle</a>
+    <a sec:authorize="hasAuthority('ROLE_ADMIN')" th:href="@{/adding}">Add new stuff</a>
+    <a sec:authorize="hasAuthority('ROLE_ADMIN')" th:href="@{/changeRole}">Change role</a>
+    <a th:href="@{/aboutMe}">About me :)</a>
+    <form class="logout" th:action="@{/logout}" th:method="POST">
+        <button type="submit" >Logout</button>
+    </form>
+
+</nav>

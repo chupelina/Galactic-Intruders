@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Adding</title>
+</head>
+
+<body>
+<header>
+    <h1 class="header"><a href="/">Galactic intruders</a></h1>
+</header>
+
+<main>
+    <th:block th:include="~{fragments/navigation}"></th:block>
+    <section>
+        <form method="post" th:action="@{/adding}" id="createShip" th:object="${addingBindingModel}">
+            <header for="type">Select type:</header>
+            <select name="type" th:field="*{type}">
+                <option value="" >Choose one</option>
+                <option value="ship">ship</option>
+                <option value="science">science</option>
+                <option value="station">station</option>
+            </select>
+        </br>
+                <small th:if="${#fields.hasErrors('type')}">Please choose a type</small>
+
+
+
+            <header for="name">Name:</header>
+            <input name="name" type="text" th:field="*{name}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('name')}">The name must be at least 4 characters</small>
+
+            <header for="metal">Need metal:</header>
+            <input name="metal" type="number" th:field="*{metal}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('metal')}">Must be a positive number</small>
+
+            <header for="gas">Need gas:</header>
+            <input name="gas" type="number" th:field="*{gas}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('gas')}">Must be a positive number</small>
+
+            <header for="diamond">Need diamond:</header>
+            <input name="diamond" type="number" th:field="*{diamond}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('diamond')}">Must be a positive number</small>
+
+            <header for="energy">Need energy:</header>
+            <input name="energy" type="number" th:field="*{energy}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('energy')}">Must be a positive number</small>
+
+            <header for="time">Need time:</header>
+            <input name="time" type="number" th:field="*{time}"/>
+            </br>
+            <small th:if="${#fields.hasErrors('time')}">Must be a positive number</small>
+
+            <header for="description">Short description:</header>
+            <textarea name="description" type="text" th:field="*{description}"></textarea>
+            </br>
+            <small th:if="${#fields.hasErrors('description')}">The description must be at least 10 characters</small>
+
+            <!--               todo picture-->
+            <header>Picture:</header>
+            <input type="file">
+            </br>
+            <button>Create</button>
+
+        </form>
+
+
+    </section>
+    <img id="planetImg" th:object="${ownMaterialsServiceModel}" th:src="*{image}">
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
+</body>
+
+</html>
