@@ -1,6 +1,6 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.PlanetModelInfo;
+import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,21 +8,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class RoleController {
 
     private final UserService userService;
-    private final PlanetModelInfo planetModelInfo;
 
-    public RoleController(UserService userService, PlanetModelInfo planetModelInfo) {
+    public RoleController(UserService userService) {
         this.userService = userService;
-        this.planetModelInfo = planetModelInfo;
     }
 
     @GetMapping("/changeRole")
-    public String about(Model model){
+    public String about(Model model, HttpSession session){
         model.addAttribute("usernames", userService.getAllUsers());
-        model.addAttribute("planetModelInfo", planetModelInfo);
+        model.addAttribute("planetModelInfo", session.getAttribute("planetModelInfo"));
         return "changeRole";
     }
 

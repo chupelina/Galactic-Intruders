@@ -1,11 +1,7 @@
 package com.example.demo.models.serviceModels;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
 
-@Component
-@SessionScope
-public class PlanetModelInfo {
+public class PlanetResourceModelInfo {
     private long id;
     private int metalCapacity;
     private int gasCapacity;
@@ -27,7 +23,7 @@ public class PlanetModelInfo {
         return id;
     }
 
-    public PlanetModelInfo setId(long id) {
+    public PlanetResourceModelInfo setId(long id) {
         this.id = id;
         return this;
     }
@@ -36,7 +32,7 @@ public class PlanetModelInfo {
         return metalCapacity;
     }
 
-    public PlanetModelInfo setMetalCapacity(int metalCapacity) {
+    public PlanetResourceModelInfo setMetalCapacity(int metalCapacity) {
         this.metalCapacity = metalCapacity;
         return this;
     }
@@ -45,7 +41,7 @@ public class PlanetModelInfo {
         return gasCapacity;
     }
 
-    public PlanetModelInfo setGasCapacity(int gasCapacity) {
+    public PlanetResourceModelInfo setGasCapacity(int gasCapacity) {
         this.gasCapacity = gasCapacity;
         return this;
     }
@@ -54,7 +50,7 @@ public class PlanetModelInfo {
         return diamondCapacity;
     }
 
-    public PlanetModelInfo setDiamondCapacity(int diamondCapacity) {
+    public PlanetResourceModelInfo setDiamondCapacity(int diamondCapacity) {
         this.diamondCapacity = diamondCapacity;
         return this;
     }
@@ -63,7 +59,7 @@ public class PlanetModelInfo {
         return energyCapacity;
     }
 
-    public PlanetModelInfo setEnergyCapacity(int energyCapacity) {
+    public PlanetResourceModelInfo setEnergyCapacity(int energyCapacity) {
         this.energyCapacity = energyCapacity;
         return this;
     }
@@ -72,7 +68,7 @@ public class PlanetModelInfo {
         return metalForMin;
     }
 
-    public PlanetModelInfo setMetalForMin(int metalForMin) {
+    public PlanetResourceModelInfo setMetalForMin(int metalForMin) {
         this.metalForMin = metalForMin;
         return this;
     }
@@ -81,7 +77,7 @@ public class PlanetModelInfo {
         return gasForMin;
     }
 
-    public PlanetModelInfo setGasForMin(int gasForMin) {
+    public PlanetResourceModelInfo setGasForMin(int gasForMin) {
         this.gasForMin = gasForMin;
         return this;
     }
@@ -90,7 +86,7 @@ public class PlanetModelInfo {
         return diamondForMin;
     }
 
-    public PlanetModelInfo setDiamondForMin(int diamondForMin) {
+    public PlanetResourceModelInfo setDiamondForMin(int diamondForMin) {
         this.diamondForMin = diamondForMin;
         return this;
     }
@@ -99,7 +95,7 @@ public class PlanetModelInfo {
         return energyForMin;
     }
 
-    public PlanetModelInfo setEnergyForMin(int energyForMin) {
+    public PlanetResourceModelInfo setEnergyForMin(int energyForMin) {
         this.energyForMin = energyForMin;
         return this;
     }
@@ -108,7 +104,7 @@ public class PlanetModelInfo {
         return metalOwn;
     }
 
-    public PlanetModelInfo setMetalOwn(int metalOwn) {
+    public PlanetResourceModelInfo setMetalOwn(int metalOwn) {
         this.metalOwn = metalOwn;
         return this;
     }
@@ -117,7 +113,7 @@ public class PlanetModelInfo {
         return gasOwn;
     }
 
-    public PlanetModelInfo setGasOwn(int gasOwn) {
+    public PlanetResourceModelInfo setGasOwn(int gasOwn) {
         this.gasOwn = gasOwn;
         return this;
     }
@@ -126,7 +122,7 @@ public class PlanetModelInfo {
         return diamondOwn;
     }
 
-    public PlanetModelInfo setDiamondOwn(int diamondOwn) {
+    public PlanetResourceModelInfo setDiamondOwn(int diamondOwn) {
         this.diamondOwn = diamondOwn;
         return this;
     }
@@ -135,7 +131,7 @@ public class PlanetModelInfo {
         return energyOwn;
     }
 
-    public PlanetModelInfo setEnergyOwn(int energyOwn) {
+    public PlanetResourceModelInfo setEnergyOwn(int energyOwn) {
         this.energyOwn = energyOwn;
         return this;
     }
@@ -144,7 +140,7 @@ public class PlanetModelInfo {
         return name;
     }
 
-    public PlanetModelInfo setName(String name) {
+    public PlanetResourceModelInfo setName(String name) {
         this.name = name;
         return this;
     }
@@ -153,7 +149,7 @@ public class PlanetModelInfo {
         return imgUrl;
     }
 
-    public PlanetModelInfo setImgUrl(String imgUrl) {
+    public PlanetResourceModelInfo setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
         return this;
     }
@@ -162,7 +158,7 @@ public class PlanetModelInfo {
         return description;
     }
 
-    public PlanetModelInfo setDescription(String description) {
+    public PlanetResourceModelInfo setDescription(String description) {
         this.description = description;
         return this;
     }

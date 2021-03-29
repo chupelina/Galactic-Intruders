@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -81,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> getAllUsers() {
-        return userRepository.findAll().stream().map(UserEntity::getUsername).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(UserEntity::getUsername).sorted(String::compareTo).collect(Collectors.toList());
     }
 
     @Override

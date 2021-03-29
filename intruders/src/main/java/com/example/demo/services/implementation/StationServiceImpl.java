@@ -60,7 +60,7 @@ public class StationServiceImpl implements StationService {
             }
             if (planetStationEntity == null) {
                 planetStationEntity = new PlanetStationEntity();
-                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetResourceEntity(planetResourceService.findById(planetId));
+                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetId), PlanetResourceEntity.class));
                 planetStationRepository.save(planetStationEntity);
             }
             StationViewModel mapped = new StationViewModel();

@@ -1,6 +1,6 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.PlanetModelInfo;
+import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.models.viewModels.ScienceViewModel;
 import com.example.demo.services.ScienceService;
 import org.springframework.stereotype.Controller;
@@ -10,21 +10,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RestController
 public class ScienceRestController {
     private final ScienceService scienceService;
-     private final PlanetModelInfo planetModelInfo;
 
-    public ScienceRestController(ScienceService scienceService, PlanetModelInfo planetModelInfo) {
+    public ScienceRestController(ScienceService scienceService){
         this.scienceService = scienceService;
-        this.planetModelInfo = planetModelInfo;
+ ;
     }
 
     @GetMapping("/api/science")
-    public List<ScienceViewModel> loadAll(Model model) {
+    public List<ScienceViewModel> loadAll(Model model, HttpSession session) {
+        PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo)session.getAttribute("planetModelInfo");
+        model.addAttribute("planetModelInfo", planetModelInfo);
+
        return scienceService.getAllScienceProjectsByCurrentPlanet(planetModelInfo.getId());
     }
 

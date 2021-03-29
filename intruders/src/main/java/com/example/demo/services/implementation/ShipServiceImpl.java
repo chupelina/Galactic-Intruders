@@ -2,6 +2,7 @@ package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.PlanetEntity;
+import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.PlanetShipEntity;
 import com.example.demo.models.entities.ShipEntity;
 import com.example.demo.models.serviceModels.PlanetServiceModel;
@@ -64,7 +65,8 @@ public class ShipServiceImpl implements ShipService {
             }
             if(planetShipEntity==null){
                 planetShipEntity = new PlanetShipEntity();
-                planetShipEntity.setCountShips(0).setPlanetResourceEntity(planetResourceService.findById(planetId)).setShipEntity(ship);
+                planetShipEntity.setCountShips(0)
+                        .setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetId), PlanetResourceEntity.class)).setShipEntity(ship);
                 planetShipRepository.save(planetShipEntity);
             }
             ShipViewModel shipViewModel = modelMapper.map(ship, ShipViewModel.class);

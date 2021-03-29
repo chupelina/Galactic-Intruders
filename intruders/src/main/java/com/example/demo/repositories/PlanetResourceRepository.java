@@ -9,7 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface PlanetResourceRepository extends JpaRepository<PlanetResourceEntity, Long> {
-        Optional<PlanetResourceEntity> findFirstByPlanetEntity_id(Long id);
-
 
 }

@@ -1,6 +1,7 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
+import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.PlanetScienceEntity;
 import com.example.demo.models.entities.ScienceEntity;
 import com.example.demo.models.viewModels.ScienceViewModel;
@@ -68,7 +69,7 @@ public class ScienceServiceImpl implements ScienceService {
             }
             if (planetScienceEntity == null) {
                 planetScienceEntity = new PlanetScienceEntity();
-                planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).setPlanetResourceEntity(planetResourceService.findById(planetEntityId));
+                planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetEntityId), PlanetResourceEntity.class));
                 planetScienceRepository.save(planetScienceEntity);
             }
             ScienceViewModel mapped = new ScienceViewModel();

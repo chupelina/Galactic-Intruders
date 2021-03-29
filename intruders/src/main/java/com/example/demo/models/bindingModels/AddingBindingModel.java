@@ -1,5 +1,6 @@
 package com.example.demo.models.bindingModels;
 
+import com.example.demo.models.entities.enums.TypeOfMadeEnum;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +10,7 @@ import javax.validation.constraints.Size;
 
 public class AddingBindingModel {
     @NotEmpty
-    private String type;
+    private TypeOfMadeEnum type;
     @NotEmpty
     @Size(min=4)
     private String name;
@@ -32,11 +33,11 @@ public class AddingBindingModel {
     @Length(min=6)
     private String description;
 
-    public String getType() {
+    public TypeOfMadeEnum getType() {
         return type;
     }
 
-    public AddingBindingModel setType(String type) {
+    public AddingBindingModel setType(TypeOfMadeEnum type) {
         this.type = type;
         return this;
     }
