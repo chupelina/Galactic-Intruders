@@ -1,11 +1,10 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
-import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.PlanetShipEntity;
 import com.example.demo.models.entities.ShipEntity;
-import com.example.demo.models.serviceModels.PlanetServiceModel;
+import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.models.viewModels.ShipViewModel;
 import com.example.demo.repositories.PlanetShipRepository;
 import com.example.demo.repositories.ShipRepository;
@@ -52,10 +51,10 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public List<ShipViewModel> getAllScienceProjectsByCurrentPlanet(Long planetId) {
+    public List<ShipViewModel> getAllShipsByCurrentPlanet(PlanetResourceModelInfo planetResourceModelInfo) {
         List<ShipViewModel> allShips= new ArrayList<>();
         List<ShipEntity> shipEntityList = shipRepository.findAll();
-        List<PlanetShipEntity> planetShipEntityList = planetShipRepository.findAllByPlanetResourceEntity_Id(planetId);
+        List<PlanetShipEntity> planetShipEntityList = planetShipRepository.findAllByPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
         for (ShipEntity ship : shipEntityList) {
             PlanetShipEntity planetShipEntity=null;
             for (PlanetShipEntity shipEntity : planetShipEntityList) {
@@ -66,11 +65,13 @@ public class ShipServiceImpl implements ShipService {
             if(planetShipEntity==null){
                 planetShipEntity = new PlanetShipEntity();
                 planetShipEntity.setCountShips(0)
-                        .setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetId), PlanetResourceEntity.class)).setShipEntity(ship);
+                        .setPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class)).setShipEntity(ship);
                 planetShipRepository.save(planetShipEntity);
             }
             ShipViewModel shipViewModel = modelMapper.map(ship, ShipViewModel.class);
-            shipViewModel.setCount(planetShipEntity.getCountShips()).setId(planetShipEntity.getId());
+            if(planetShipEntity.getId()!=null){
+                shipViewModel.setCount(planetShipEntity.getCountShips()).setId(planetShipEntity.getId());
+            }
             allShips.add(shipViewModel);
         }
         return allShips;
@@ -78,12 +79,13 @@ public class ShipServiceImpl implements ShipService {
 
     @Override
     public void addShips(Long shipId, int count) {
-        Optional<PlanetShipEntity> ship = planetShipRepository.findById(shipId);
-        ship.get().setCountShips(ship.get().getCountShips()+count);
-        Optional<ShipEntity> shipNeeds = shipRepository.findById(ship.get().getShipEntity().getId());
-        planetResourceService.decreaseOwns(ship.get().getPlanetResourceEntity() , shipNeeds.get().getDiamond()*count, shipNeeds.get().getEnergy()*count,
+       PlanetShipEntity ship = planetShipRepository.findById(shipId).orElseThrow();
+        ship.setCountShips(ship.getCountShips()+count);
+        Optional<ShipEntity> shipNeeds = shipRepository.findById(ship.getShipEntity().getId());
+        planetShipRepository.save(ship);
+
+        planetResourceService.decreaseOwns(ship.getPlanetResourceEntity() , shipNeeds.get().getDiamond()*count, shipNeeds.get().getEnergy()*count,
                 shipNeeds.get().getMetal()*count, shipNeeds.get().getGas()*count);
-        planetShipRepository.save(ship.get());
     }
 
     @Override
@@ -95,5 +97,9 @@ public class ShipServiceImpl implements ShipService {
             return true;
         }
         return false;
+    }
+
+    public PlanetShipEntity returnPlanetShipEntityById(long id){
+        return planetShipRepository.findById(id).orElseThrow();
     }
 }

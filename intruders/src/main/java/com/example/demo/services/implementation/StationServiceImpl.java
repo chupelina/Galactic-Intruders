@@ -2,6 +2,7 @@ package com.example.demo.services.implementation;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.*;
+import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.models.viewModels.StationViewModel;
 import com.example.demo.repositories.PlanetStationRepository;
 import com.example.demo.repositories.StationRepository;
@@ -46,9 +47,10 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public List<StationViewModel> getAllStationsByCurrentPlanet(long planetId) {
+    public List<StationViewModel> getAllStationsByCurrentPlanet(PlanetResourceModelInfo planetResourceModelInfo) {
         List<StationViewModel> out = new ArrayList<>();
-        List<PlanetStationEntity> allStations = planetStationRepository.findAllByPlanetResourceEntity_Id(planetId);
+
+        List<PlanetStationEntity> allStations = planetStationRepository.findAllByPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
         List<StationEntity> all = stationRepository.findAll();
         for (StationEntity stationEntity: all) {
             PlanetStationEntity planetStationEntity = null;
@@ -60,7 +62,7 @@ public class StationServiceImpl implements StationService {
             }
             if (planetStationEntity == null) {
                 planetStationEntity = new PlanetStationEntity();
-                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetId), PlanetResourceEntity.class));
+                planetStationEntity.setLevel(0).setStationEntity(stationEntity).setPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
                 planetStationRepository.save(planetStationEntity);
             }
             StationViewModel mapped = new StationViewModel();
@@ -71,8 +73,10 @@ public class StationServiceImpl implements StationService {
                     .setGas((int)Math.round(stationEntity.getGas()*currentLevel))
                     .setTime((int)Math.round(stationEntity.getTime()*currentLevel));
             mapped.setCurrentLevel(planetStationEntity.getLevel())
-                    .setId(planetStationEntity.getId())
                     .setDescription(stationEntity.getDescription()).setName(stationEntity.getName());
+            if(planetStationEntity.getId()!=null){
+                mapped.setId(planetStationEntity.getId());
+            }
             out.add(mapped);
         }
         return out;
@@ -89,6 +93,11 @@ public class StationServiceImpl implements StationService {
                 (int)Math.round(stationEntity.getDiamond()*level),
                 (int)Math.round(stationEntity.getEnergy()*level), (int)Math.round(stationEntity.getMetal()*level)
                 , (int)Math.round(stationEntity.getGas()*level));
+    }
+
+    @Override
+    public PlanetStationEntity findByPlanetStationEntityId(long id){
+        return planetStationRepository.findById(id).orElseThrow();
     }
 
     @Override

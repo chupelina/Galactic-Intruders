@@ -25,7 +25,7 @@ public class StationRestController {
     public List<StationViewModel> returnAllStations(HttpSession session) {
         PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo)session.getAttribute("planetModelInfo");
 
-       return stationService.getAllStationsByCurrentPlanet(planetModelInfo.getId());
+       return stationService.getAllStationsByCurrentPlanet(planetModelInfo);
     }
 
     @PostMapping("/api/stations/{id}")

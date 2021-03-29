@@ -28,13 +28,12 @@ public class PlanetFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
         if(request.getRemoteUser()!=null){
             PlanetServiceModel currentPlanet = planetService.getCurrentPlanet(request.getRemoteUser());
             PlanetResourceModelInfo current = planetResourceService.findById(currentPlanet.getId());
             current.setDescription(currentPlanet.getDescription()).setImgUrl(currentPlanet.getImgUrl()).setName(currentPlanet.getName());
             request.getSession().setAttribute("planetModelInfo", current);
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, servletResponse);
     }
 }

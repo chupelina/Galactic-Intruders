@@ -28,7 +28,7 @@ public class ScienceRestController {
         PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo)session.getAttribute("planetModelInfo");
         model.addAttribute("planetModelInfo", planetModelInfo);
 
-       return scienceService.getAllScienceProjectsByCurrentPlanet(planetModelInfo.getId());
+       return scienceService.getAllScienceProjectsByCurrentPlanet(planetModelInfo);
     }
 
     @PostMapping("/api/science/{id}")

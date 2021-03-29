@@ -27,7 +27,7 @@ public class ShipRestController {
 
         PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo)session.getAttribute("planetModelInfo");
         model.addAttribute("planetModelInfo", planetModelInfo);
-       return  shipService.getAllScienceProjectsByCurrentPlanet(planetModelInfo.getId());
+       return  shipService.getAllShipsByCurrentPlanet(planetModelInfo);
     }
     @PostMapping("/api/ships/{id}/{count}")
     public String  getCurrent(@PathVariable Long id, @PathVariable int count){

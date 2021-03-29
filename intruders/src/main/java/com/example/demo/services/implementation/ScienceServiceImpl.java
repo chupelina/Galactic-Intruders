@@ -4,6 +4,7 @@ import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.PlanetScienceEntity;
 import com.example.demo.models.entities.ScienceEntity;
+import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.models.viewModels.ScienceViewModel;
 import com.example.demo.repositories.PlanetScienceRepository;
 import com.example.demo.repositories.ScienceRepository;
@@ -54,10 +55,10 @@ public class ScienceServiceImpl implements ScienceService {
     }
 
     @Override
-    public List<ScienceViewModel> getAllScienceProjectsByCurrentPlanet(Long planetEntityId) {
+    public List<ScienceViewModel> getAllScienceProjectsByCurrentPlanet(PlanetResourceModelInfo planetResourceModelInfo) {
         List<ScienceViewModel> out = new ArrayList<>();
 
-        List<PlanetScienceEntity> allScienceProjectsEntity = planetScienceRepository.findAllByPlanetResourceEntity_Id(planetEntityId);
+        List<PlanetScienceEntity> allScienceProjectsEntity = planetScienceRepository.findAllByPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
         List<ScienceEntity> all = scienceRepository.findAll();
         for (ScienceEntity scienceEntity : all) {
             PlanetScienceEntity planetScienceEntity = null;
@@ -68,49 +69,65 @@ public class ScienceServiceImpl implements ScienceService {
                 }
             }
             if (planetScienceEntity == null) {
-                planetScienceEntity = new PlanetScienceEntity();
-                planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).setPlanetResourceEntity(modelMapper.map(planetResourceService.findById(planetEntityId), PlanetResourceEntity.class));
-                planetScienceRepository.save(planetScienceEntity);
+                planetScienceEntity = createPlanetScienceEntity(scienceEntity, modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
             }
-            ScienceViewModel mapped = new ScienceViewModel();
-            double currentLevel =planetScienceEntity.getLevel()*0.1 +1;
-            mapped.setDiamond((int)Math.round(scienceEntity.getDiamond()*currentLevel))
-                    .setEnergy((int)Math.round(scienceEntity.getEnergy()*currentLevel))
-                    .setMetal((int)Math.round(scienceEntity.getMetal()*currentLevel))
-                    .setGas((int)Math.round(scienceEntity.getGas()*currentLevel))
-            .setTime((int)Math.round(scienceEntity.getTime()*currentLevel));
-            mapped.setCurrentLevel(planetScienceEntity.getLevel())
-                    .setId(planetScienceEntity.getId())
-            .setDescription(scienceEntity.getDescription()).setName(scienceEntity.getName());
+            ScienceViewModel mapped = creatViewModel(planetScienceEntity.getLevel(), scienceEntity, planetScienceEntity);
             out.add(mapped);
 
         }
         return out;
     }
 
+    private PlanetScienceEntity createPlanetScienceEntity(ScienceEntity scienceEntity, PlanetResourceEntity planetResourceEntity) {
+        PlanetScienceEntity planetScienceEntity = new PlanetScienceEntity();
+        planetScienceEntity.setLevel(0).setScienceEntity(scienceEntity).
+                setPlanetResourceEntity(planetResourceEntity);
+        planetScienceRepository.save(planetScienceEntity);
+        return planetScienceEntity;
+    }
+
+    private ScienceViewModel creatViewModel(int level, ScienceEntity scienceEntity, PlanetScienceEntity planetScienceEntity) {
+
+        ScienceViewModel mapped = new ScienceViewModel();
+        double currentLevel = level * 0.1 + 1;
+        mapped.setDiamond((int) Math.round(scienceEntity.getDiamond() * currentLevel))
+                .setEnergy((int) Math.round(scienceEntity.getEnergy() * currentLevel))
+                .setMetal((int) Math.round(scienceEntity.getMetal() * currentLevel))
+                .setGas((int) Math.round(scienceEntity.getGas() * currentLevel))
+                .setTime((int) Math.round(scienceEntity.getTime() * currentLevel)).setName(scienceEntity.getName());
+        if (planetScienceEntity.getId() != null) {
+            mapped.setCurrentLevel(planetScienceEntity.getLevel()).setId(planetScienceEntity.getId())
+                    .setDescription(scienceEntity.getDescription());
+        }
+        return mapped;
+    }
 
     @Override
     public void updateScienceLevel(Long id) {
-        Optional<PlanetScienceEntity> planetScience = planetScienceRepository.findById(id);
-        double level = planetScience.get().getLevel()*0.1+1;
-        ScienceEntity scienceEntity = planetScience.get().getScienceEntity();
-        planetScience.get().setLevel(planetScience.get().getLevel()+1);
-        planetScienceRepository.save(planetScience.get());
-        planetResourceService.decreaseOwns( planetScience.get().getPlanetResourceEntity(),
-                (int)Math.round(scienceEntity.getDiamond()*level),
-                (int)Math.round(scienceEntity.getEnergy()*level), (int)Math.round(scienceEntity.getMetal()*level)
-                , (int)Math.round(scienceEntity.getGas()*level));
+        PlanetScienceEntity planetScience = planetScienceRepository.findById(id).orElseThrow();
+        double level = planetScience.getLevel() * 0.1 + 1;
+        ScienceEntity scienceEntity = planetScience.getScienceEntity();
+        planetScience.setLevel(planetScience.getLevel() + 1);
+        planetScienceRepository.save(planetScience);
+        planetResourceService.decreaseOwns(planetScience.getPlanetResourceEntity(),
+                (int) Math.round(scienceEntity.getDiamond() * level),
+                (int) Math.round(scienceEntity.getEnergy() * level), (int) Math.round(scienceEntity.getMetal() * level)
+                , (int) Math.round(scienceEntity.getGas() * level));
 
     }
 
     @Override
     public boolean createNewScience(AddingBindingModel addingBindingModel) {
         Optional<ScienceEntity> current = scienceRepository.findFirstByName(addingBindingModel.getName());
-        if(current.isEmpty()){
+        if (current.isEmpty()) {
             ScienceEntity scienceEntity = modelMapper.map(addingBindingModel, ScienceEntity.class);
             scienceRepository.save(scienceEntity);
             return true;
         }
         return false;
+    }
+
+    public PlanetScienceEntity getPlanetScienceEntityById(long id) {
+        return planetScienceRepository.findById(id).orElseThrow();
     }
 }

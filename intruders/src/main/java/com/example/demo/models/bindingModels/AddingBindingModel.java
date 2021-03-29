@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class AddingBindingModel {
-    @NotEmpty
+    @NotNull
     private TypeOfMadeEnum type;
     @NotEmpty
     @Size(min=4)

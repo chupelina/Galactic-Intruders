@@ -19,12 +19,11 @@ import java.security.Principal;
 @Controller
 public class BankController {
     private final PlanetResourceService planetResourceService;
-    private final PlanetService planetService;
 
 
-    public BankController(PlanetResourceService planetResourceService, PlanetService planetService) {
+    public BankController(PlanetResourceService planetResourceService) {
         this.planetResourceService = planetResourceService;
-        this.planetService = planetService;
+
 
     }
 
