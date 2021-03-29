@@ -1,12 +1,14 @@
 package com.example.demo.models.bindingModels;
 
+import com.example.demo.models.entities.enums.MaterialEnum;
+
 import javax.validation.constraints.Positive;
 
 public class BankBindingModel {
     @Positive
     private int count;
-    private String type;
-    private String wanted;
+    private MaterialEnum type;
+    private MaterialEnum wanted;
 
     public int getCount() {
         return count;
@@ -17,20 +19,20 @@ public class BankBindingModel {
         return this;
     }
 
-    public String getType() {
+    public MaterialEnum getType() {
         return type;
     }
 
-    public BankBindingModel setType(String type) {
+    public BankBindingModel setType(MaterialEnum type) {
         this.type = type;
         return this;
     }
 
-    public String getWanted() {
+    public MaterialEnum getWanted() {
         return wanted;
     }
 
-    public BankBindingModel setWanted(String wanted) {
+    public BankBindingModel setWanted(MaterialEnum wanted) {
         this.wanted = wanted;
         return this;
     }

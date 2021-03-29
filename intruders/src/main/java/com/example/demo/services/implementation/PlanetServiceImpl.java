@@ -48,8 +48,7 @@ public class PlanetServiceImpl implements PlanetService {
 
     @Override
     public PlanetEntity findPlanetById(long planetId) {
-        // TODO: 20.3.2021 error handling
-        return planetRepository.findById(planetId).orElse(null);
+        return planetRepository.findById(planetId).orElseThrow();
     }
 
     private String getName() {

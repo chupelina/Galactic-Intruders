@@ -3,9 +3,7 @@ package com.example.demo.services.implementation;
 import com.example.demo.models.bindingModels.BankBindingModel;
 import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetResourceEntity;
-import com.example.demo.models.entities.enums.MaterialEnum;
 import com.example.demo.models.serviceModels.PlanetModelInfo;
-import com.example.demo.models.serviceModels.PlanetResourceServiceModel;
 import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.repositories.PlanetResourceRepository;
 import com.example.demo.services.PlanetResourceService;
@@ -20,14 +18,12 @@ import java.util.Random;
 public class PlanetResourceServiceImpl implements PlanetResourceService {
     private final PlanetResourceRepository planetResourceRepository;
     private final PlanetModelInfo planetModelInfo;
-    private final ModelMapper modelMapper;
     private final PlanetService planetService;
 
     public PlanetResourceServiceImpl(PlanetResourceRepository planetResourceRepository,
-                                     PlanetModelInfo planetModelInfo, ModelMapper modelMapper, PlanetService planetService) {
+                                     PlanetModelInfo planetModelInfo, PlanetService planetService) {
         this.planetResourceRepository = planetResourceRepository;
         this.planetModelInfo = planetModelInfo;
-        this.modelMapper = modelMapper;
         this.planetService = planetService;
     }
 
@@ -63,7 +59,7 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
     public boolean changeMaterials(BankBindingModel bankBindingModel, PlanetServiceModel currentPlanet) {
         PlanetResourceEntity planet = planetResourceRepository.findFirstByPlanetEntity_id(currentPlanet.getId()).orElseThrow();
         try {
-            switch (MaterialEnum.valueOf(bankBindingModel.getType().toUpperCase())) {
+            switch (bankBindingModel.getType()) {
                 case METAL:
                     planet.setMetalOwn(decreaseMaterials(planet.getMetalOwn(), bankBindingModel.getCount()));
                     break;
@@ -77,7 +73,7 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
                     planet.setDiamondOwn(decreaseMaterials(planet.getDiamondOwn(), bankBindingModel.getCount()));
                     break;
             }
-            switch (MaterialEnum.valueOf(bankBindingModel.getWanted().toUpperCase())) {
+            switch (bankBindingModel.getWanted()) {
                 case METAL:
                     planet.setMetalOwn(increaseMaterials(planet.getMetalOwn(), bankBindingModel.getCount(), planet.getMetalCapacity()));
                     break;
@@ -105,10 +101,10 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
 
     @Override
     public void decreaseOwns(PlanetResourceEntity planet, int diamond, int energy, int metal, int gas) {
-        planet.setMetalOwn(planet.getMetalOwn() - metal);
-        planet.setDiamondOwn(planet.getDiamondOwn() - diamond);
-        planet.setGasOwn(planet.getGasOwn() - gas);
-        planet.setEnergyOwn(planet.getEnergyOwn() - energy);
+        planet.setMetalOwn(decreaseMaterials(planet.getMetalOwn(), metal));
+        planet.setDiamondOwn(decreaseMaterials(planet.getDiamondOwn() , diamond));
+        planet.setGasOwn(decreaseMaterials(planet.getGasOwn() , gas));
+        planet.setEnergyOwn(decreaseMaterials(planet.getEnergyOwn() , energy));
         planetResourceRepository.save(planet);
         planetModelInfo.setDiamondCapacity(planet.getDiamondCapacity()).setDiamondForMin(planet.getDiamondForMin()).setDiamondOwn(planet.getDiamondOwn())
                 .setEnergyCapacity(planet.getEnergyCapacity()).setEnergyForMin(planet.getEnergyForMin()).setEnergyOwn(planet.getEnergyOwn())

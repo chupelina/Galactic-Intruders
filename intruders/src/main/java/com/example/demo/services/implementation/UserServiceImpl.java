@@ -52,8 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity findByUsername(String s) {
-        //TODO: error handling
-        return userRepository.findFirstByUsername(s).orElse(null);
+        return userRepository.findFirstByUsername(s).orElseThrow();
     }
 
     @Override

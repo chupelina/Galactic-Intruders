@@ -22,15 +22,11 @@
             <p>How much you want to spend</p>
             <input type="number" name="count">
             <select name="type">
-                <option>metal</option>
-                <option>gas</option>
-                <option>diamond</option>
+                <option th:each="m: ${T(com.example.demo.models.entities.enums.MaterialEnum).values()}" th:text="${m}" th:value="${m}">metal</option>
             </select>
             <p> for that you will receive 80% of what you spend</p>
             <select name="wanted">
-                <option>metal</option>
-                <option>gas</option>
-                <option>diamond</option>
+                <option th:each="m: ${T(com.example.demo.models.entities.enums.MaterialEnum).values()}" th:text="${m}" th:value="${m}">metal</option>
             </select>
             <span th:if="${positive}">
                 Please, enter positive number!
