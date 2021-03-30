@@ -4,11 +4,11 @@ import com.example.demo.models.bindingModels.BankBindingModel;
 import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
-import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.repositories.PlanetResourceRepository;
 import com.example.demo.services.PlanetResourceService;
 import com.example.demo.services.PlanetService;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +19,7 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
     private final PlanetResourceRepository planetResourceRepository;
     private final PlanetService planetService;
     private final ModelMapper modelMapper;
+    private PlanetResourceEntity planetResourceEntityForSchedule;
 
     public PlanetResourceServiceImpl(PlanetResourceRepository planetResourceRepository, PlanetService planetService, ModelMapper modelMapper) {
         this.planetResourceRepository = planetResourceRepository;
@@ -44,6 +45,7 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
         }else{
           planetResourceEntity  = planetResource.get();
         }
+        planetResourceEntityForSchedule= planetResourceEntity;
         return modelMapper.map(planetResourceEntity, PlanetResourceModelInfo.class);
     }
 
@@ -88,6 +90,23 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
         }
 
     }
+    @Scheduled(cron = "0 0/1 * 1/1 * ? ")
+    private void increaseOwns(){
+        if(planetResourceEntityForSchedule==null){
+            return;
+        }
+        planetResourceEntityForSchedule.setMetalOwn(increaseMaterials(planetResourceEntityForSchedule.getMetalOwn()
+                , planetResourceEntityForSchedule.getMetalForMin(), planetResourceEntityForSchedule.getMetalCapacity()));
+        planetResourceEntityForSchedule.setDiamondOwn(increaseMaterials(planetResourceEntityForSchedule.getDiamondOwn()
+                ,planetResourceEntityForSchedule.getDiamondForMin(), planetResourceEntityForSchedule.getDiamondCapacity()));
+        planetResourceEntityForSchedule.setGasOwn(increaseMaterials(planetResourceEntityForSchedule.getGasOwn()
+                , planetResourceEntityForSchedule.getGasForMin(), planetResourceEntityForSchedule.getGasCapacity()));
+        planetResourceEntityForSchedule.setEnergyOwn(increaseMaterials(planetResourceEntityForSchedule.getEnergyOwn()
+                ,planetResourceEntityForSchedule.getEnergyForMin(), planetResourceEntityForSchedule.getEnergyCapacity()));
+        planetResourceRepository.save(planetResourceEntityForSchedule);
+        modelMapper.map(planetResourceEntityForSchedule , PlanetResourceModelInfo.class);
+    }
+
 
     @Override
     public void decreaseOwns(PlanetResourceEntity planet, int diamond, int energy, int metal, int gas) {

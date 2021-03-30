@@ -39,13 +39,13 @@ public class ShipServiceImpl implements ShipService {
             return;
         }
         ShipEntity cargoShip = new ShipEntity();
-        cargoShip.setDescription("collect your incomes").setDiamond(20).setEnergy(20).setGas(5).setMetal(35).setImgUrl("/img/planets/cargoShip.jpg")
+        cargoShip.setDescription("collect your incomes").setDiamond(20).setEnergy(20).setGas(5).setMetal(35).setImgUrl("../img/ships/cargoship.jpg")
                 .setName("Cargoship").setTime("10");
         ShipEntity cyclone = new ShipEntity();
-        cyclone.setDescription("collect your incomes").setDiamond(25).setEnergy(10).setGas(10).setMetal(22).setImgUrl("/img/ships/cyclone.jpg")
+        cyclone.setDescription("collect your incomes").setDiamond(25).setEnergy(10).setGas(10).setMetal(22).setImgUrl("../img/ships/cyclone.jpg")
                 .setName("Cyclone").setTime("134");
         ShipEntity destroyer = new ShipEntity();
-        destroyer.setDescription("collect your incomes").setDiamond(25).setEnergy(10).setGas(10).setMetal(22).setImgUrl("/img/ships/destroyer.jpg")
+        destroyer.setDescription("collect your incomes").setDiamond(25).setEnergy(10).setGas(10).setMetal(22).setImgUrl("../img/ships/guardian.jpg")
                 .setName("Guardian").setTime("152");
         shipRepository.saveAll(List.of(cyclone, cargoShip, destroyer));
     }

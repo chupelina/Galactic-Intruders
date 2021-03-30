@@ -1,8 +1,9 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
+import {getOwns} from"./owns.js"
 
-const response = await fetch("http://localhost:8080/api/ships");
-const army = await response.json();
+let response = await fetch("http://localhost:8080/api/ships");
+let army = await response.json();
 let allCards = () => Object.entries(army).map(([k, v]) => {
     let button;
     let time = convertTime(v.time);
@@ -22,7 +23,7 @@ let container = document.getElementById('card-ship');
 
 
 let makeShipCard = (object, time, button) => html`<div class="ships">
-                <img alt="Image of ship" scr="${object.imgUrl}" />
+                <img alt="Image of ship" src="${object.imgUrl}" />
                 <h1>${object.name}</h1>
                 <p>You have: <span>${object.count}</span></p>
                 <p>To create 1 you need to wait <span id="time">${time}</span> and spend</p>
@@ -42,10 +43,10 @@ container.addEventListener('click', async (e) => {
         let count = e.target.parentNode.querySelector('input').value;
 
         let needToBuild = [...e.target.parentNode.children];
-        let metal =Number( needToBuild[0].textContent.split(' ')[0])* count;
-        let gas = Number(needToBuild[1].textContent.split(' ')[0])* count;
-        let diamond = Number(needToBuild[2].textContent.split(' ')[0])* count;
-        let energy = Number(needToBuild[3].textContent.split(' ')[0])* count;
+        let metal = Number(needToBuild[0].textContent.split(' ')[0]) * count;
+        let gas = Number(needToBuild[1].textContent.split(' ')[0]) * count;
+        let diamond = Number(needToBuild[2].textContent.split(' ')[0]) * count;
+        let energy = Number(needToBuild[3].textContent.split(' ')[0]) * count;
         let h3;
         let h2;
         if (Number(owns[0].textContent) < metal || Number(owns[1].textContent) < gas ||
@@ -73,6 +74,7 @@ container.addEventListener('click', async (e) => {
         sessionStorage.setItem('ship-seconds-waiting', (seconds * count) + '');
         sessionStorage.setItem('ship-id', e.target.id);
         render(allCards(), container);
+        await getOwns();
 
     }
 })
@@ -83,12 +85,11 @@ function timeCounter() {
     let clicked = new Date(sessionStorage.getItem('ship-clicked-on'));
     let timer = setInterval(countDown, 1000);
 
-    function countDown() {
+    async function countDown() {
         let timeContainer = document.getElementById('count-down-element');
         let v = clicked;
         let n = new Date();
         let s = seconds - Math.round((n.getTime() - v.getTime()) / 1000.);
-        console.log(s);
         let m = 0;
         let h = 0;
         if (s > 59) {
@@ -106,7 +107,9 @@ function timeCounter() {
             sessionStorage.removeItem('ship-clicked-on');
             sessionStorage.removeItem('ship-seconds-waiting');
             sessionStorage.removeItem('ship-id');
-            location.reload();
+            response = await fetch("http://localhost:8080/api/ships");
+            army = await response.json();
+            render(allCards(), container);
         }
     }
 }

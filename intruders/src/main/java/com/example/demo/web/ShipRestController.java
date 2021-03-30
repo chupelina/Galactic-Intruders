@@ -23,14 +23,18 @@ public class ShipRestController {
     }
 
     @GetMapping("/api/ships")
-    public List<ShipViewModel> about(Model model, HttpSession session){
+    public List<ShipViewModel> about(Model model, HttpSession session) {
 
-        PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo)session.getAttribute("planetModelInfo");
+        PlanetResourceModelInfo planetModelInfo = (PlanetResourceModelInfo) session.getAttribute("planetModelInfo");
         model.addAttribute("planetModelInfo", planetModelInfo);
-       return  shipService.getAllShipsByCurrentPlanet(planetModelInfo);
+        return shipService.getAllShipsByCurrentPlanet(planetModelInfo);
     }
+
     @PostMapping("/api/ships/{id}/{count}")
-    public String  getCurrent(@PathVariable Long id, @PathVariable int count){
+    public String getCurrent(@PathVariable Long id, @PathVariable int count) {
+        if (count <= 0) {
+            return "redirect:/api/ships";
+        }
         shipService.addShips(id, count);
         return "redirect:/";
 

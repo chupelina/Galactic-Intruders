@@ -135,6 +135,8 @@ div.stations > button, div.ships > button, div.science > button, div.bank > butt
 
 div.ships > img {
     height: 13rem;
+    background-color: white;
+    border: none;
 }
 
 div.ships > p {

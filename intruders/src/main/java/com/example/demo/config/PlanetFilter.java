@@ -1,4 +1,4 @@
-package com.example.demo.dbinit;
+package com.example.demo.config;
 
 
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;

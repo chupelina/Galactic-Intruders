@@ -1,8 +1,9 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
+import {getOwns} from"./owns.js"
 
-const response = await fetch("http://localhost:8080/api/science")
-const scienceProjects = await response.json();
+let response = await fetch("http://localhost:8080/api/science")
+let scienceProjects = await response.json();
 
 let allCards = () => Object.entries(scienceProjects).map(([k, v]) => {
     console.log(v);
@@ -63,6 +64,7 @@ container.addEventListener('click', async (e) => {
             sessionStorage.setItem('science-seconds-waiting', time);
             sessionStorage.setItem('science-id', e.target.id);
             render(allCards(), container);
+            await getOwns();
         }
     }
 )
@@ -74,7 +76,7 @@ function timeCounter() {
 
     let timer = setInterval(countDown, 1000);
 
-    function countDown() {
+   async function countDown() {
         let timeContainer = document.getElementById('count-down-element');
         let v = clicked;
         let n = new Date();
@@ -96,7 +98,9 @@ function timeCounter() {
             sessionStorage.removeItem('science-clicked-on');
             sessionStorage.removeItem('science-seconds-waiting');
             sessionStorage.removeItem('science-id');
-            location.reload();
+            response = await fetch("http://localhost:8080/api/science")
+            scienceProjects = await response.json();
+            render(allCards(), container);
         }
     }
 }
