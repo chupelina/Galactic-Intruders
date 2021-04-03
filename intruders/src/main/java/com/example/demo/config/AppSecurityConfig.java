@@ -14,10 +14,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final UserSecurity userSecurity;
+    private final UserAuthenticationLogoutSuccessHandler userAuthenticationLogoutSuccessHandler;
 
-    public AppSecurityConfig(PasswordEncoder passwordEncoder, UserSecurity userSecurity) {
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, UserSecurity userSecurity, UserAuthenticationLogoutSuccessHandler userAuthenticationLogoutSuccessHandler) {
         this.passwordEncoder = passwordEncoder;
         this.userSecurity = userSecurity;
+
+        this.userAuthenticationLogoutSuccessHandler = userAuthenticationLogoutSuccessHandler;
     }
 
     @Override
@@ -34,7 +37,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureForwardUrl("/users/login-error")
                 .and()
                 .logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/")
+                .logoutUrl("/logout")
+                .addLogoutHandler(userAuthenticationLogoutSuccessHandler)
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 

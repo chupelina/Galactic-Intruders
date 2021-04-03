@@ -17,7 +17,7 @@ let allCards = () => Object.entries(scienceProjects).map(([k, v]) => {
             button = html`</br>`;
         }
     } else {
-        button = html`<button type="submit" id="${v.id}"> Create</button>`;
+        button = html`<button type="submit" id="${v.id}"> Build</button>`;
     }
     return  makeScienceCard(v, time, button);
 });

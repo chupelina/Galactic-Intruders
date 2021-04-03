@@ -15,7 +15,7 @@ let allCards = () => Object.entries(army).map(([k, v]) => {
             button = html`</br>`;
         }
     } else {
-        button = html`<input type="number"><button type="submit" id="${v.id}"> Create</button>`;
+        button = html`<input type="number"><button type="submit" id="${v.id}"> Build</button>`;
     }
     return makeShipCard(v, time, button);
 });

@@ -11,6 +11,7 @@ public interface PlanetResourceService {
 
     void decreaseOwns(PlanetResourceEntity planet ,int diamond, int energy, int metal, int gas);
 
+    void increaseOwns();
 
     PlanetResourceModelInfo findById(Long planetEntityId);
 }

@@ -90,18 +90,18 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
         }
 
     }
-    @Scheduled(cron = "0 0/1 * 1/1 * ? ")
-    private void increaseOwns(){
+
+    public void increaseOwns(){
         if(planetResourceEntityForSchedule==null){
             return;
         }
-        planetResourceEntityForSchedule.setMetalOwn(increaseMaterials(planetResourceEntityForSchedule.getMetalOwn()
+        planetResourceEntityForSchedule.setMetalOwn(increaseSchedule(planetResourceEntityForSchedule.getMetalOwn()
                 , planetResourceEntityForSchedule.getMetalForMin(), planetResourceEntityForSchedule.getMetalCapacity()));
-        planetResourceEntityForSchedule.setDiamondOwn(increaseMaterials(planetResourceEntityForSchedule.getDiamondOwn()
+        planetResourceEntityForSchedule.setDiamondOwn(increaseSchedule(planetResourceEntityForSchedule.getDiamondOwn()
                 ,planetResourceEntityForSchedule.getDiamondForMin(), planetResourceEntityForSchedule.getDiamondCapacity()));
-        planetResourceEntityForSchedule.setGasOwn(increaseMaterials(planetResourceEntityForSchedule.getGasOwn()
+        planetResourceEntityForSchedule.setGasOwn(increaseSchedule(planetResourceEntityForSchedule.getGasOwn()
                 , planetResourceEntityForSchedule.getGasForMin(), planetResourceEntityForSchedule.getGasCapacity()));
-        planetResourceEntityForSchedule.setEnergyOwn(increaseMaterials(planetResourceEntityForSchedule.getEnergyOwn()
+        planetResourceEntityForSchedule.setEnergyOwn(increaseSchedule(planetResourceEntityForSchedule.getEnergyOwn()
                 ,planetResourceEntityForSchedule.getEnergyForMin(), planetResourceEntityForSchedule.getEnergyCapacity()));
         planetResourceRepository.save(planetResourceEntityForSchedule);
         modelMapper.map(planetResourceEntityForSchedule , PlanetResourceModelInfo.class);
@@ -134,6 +134,13 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
         }
     }
 
+    private static int increaseSchedule(int first, int second, int capacity) {
+        if ((int) (first + second ) > capacity) {
+            return capacity;
+        } else {
+            return (int) (first +second );
+        }
+    }
 
     private PlanetResourceEntity seedCurrentResources(PlanetResourceEntity planet) {
         planet.setDiamondForMin(randomResourceMinNumber())
