@@ -1,12 +1,11 @@
 package com.example.demo.web;
 
 import com.example.demo.models.bindingModels.UserRegisterBindingModel;
-import com.example.demo.models.serviceModels.UserRegisterServiceModel;
+import com.example.demo.models.serviceModels.UserServiceModel;
 import com.example.demo.services.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,7 +71,7 @@ public class UserController {
             redirectAttributes.addFlashAttribute("notMatchingPassword", true);
             return "redirect:/users/register";
         }
-        userService.registerUser(modelMapper.map(userRegisterBindingModel, UserRegisterServiceModel.class));
+        userService.registerUser(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
         return "redirect:/home";
     }
 }

@@ -1,11 +1,8 @@
 package com.example.demo.web;
 
-import com.example.demo.models.entities.enums.TypeOfMadeEnum;
 import com.example.demo.repositories.PlanetRepository;
 import com.example.demo.repositories.PlanetShipRepository;
 import com.example.demo.repositories.ShipRepository;
-import com.example.demo.services.PlanetResourceService;
-import com.example.demo.services.PlanetService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,8 +12,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 

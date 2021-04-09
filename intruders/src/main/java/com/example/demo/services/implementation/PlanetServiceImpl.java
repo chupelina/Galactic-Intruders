@@ -1,6 +1,7 @@
 package com.example.demo.services.implementation;
 
 import com.example.demo.models.entities.PlanetEntity;
+import com.example.demo.models.entities.UserEntity;
 import com.example.demo.models.serviceModels.PlanetServiceModel;
 import com.example.demo.repositories.PlanetRepository;
 import com.example.demo.services.*;
@@ -26,18 +27,21 @@ public class PlanetServiceImpl implements PlanetService {
     }
 
     private PlanetServiceModel createPlanet(String username) {
+        UserEntity user = modelMapper.map(userService.findByUsername(username), UserEntity.class);
         PlanetEntity planet = new PlanetEntity();
         planet.setDescription(getDescription())
                 .setImgUrl(getImageUrl())
                 .setName(getName())
-                .setUserEntity(userService.findByUsername(username));
+                .setUserEntity(user);
         planetRepository.save(planet);
         return modelMapper.map(planet, PlanetServiceModel.class);
     }
 
     @Override
     public PlanetServiceModel getCurrentPlanet(String username) {
-        Optional<PlanetEntity> planet = planetRepository.findByUserEntity(userService.findByUsername(username));
+
+        UserEntity user = modelMapper.map(userService.findByUsername(username), UserEntity.class);
+        Optional<PlanetEntity> planet = planetRepository.findByUserEntity(user);
         if (planet.isEmpty()) {
            return createPlanet(username);
         }

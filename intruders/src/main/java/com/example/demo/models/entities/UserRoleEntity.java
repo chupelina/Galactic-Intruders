@@ -3,7 +3,6 @@ package com.example.demo.models.entities;
 import com.example.demo.models.entities.enums.RoleEnum;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name = "user_roles")

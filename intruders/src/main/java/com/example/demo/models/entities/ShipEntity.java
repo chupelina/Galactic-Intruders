@@ -23,6 +23,7 @@ public class ShipEntity extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+
     public String getName() {
         return name;
     }

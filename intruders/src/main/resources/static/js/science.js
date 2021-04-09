@@ -43,7 +43,7 @@ render(allCards(), container);
 let owns = [...document.getElementsByTagName('footer')[0].querySelectorAll('p>span')];
 
 container.addEventListener('click', async (e) => {
-        if (e.target.innerText === 'Create' && e.target.tagName === 'BUTTON') {
+        if (e.target.innerText === 'Build' && e.target.tagName === 'BUTTON') {
             let needToBuild = [...e.target.parentNode.querySelector('ul').children];
             let metal =Number( needToBuild[0].textContent.split(' ')[0]);
             let gas = Number(needToBuild[1].textContent.split(' ')[0]);
@@ -64,7 +64,7 @@ container.addEventListener('click', async (e) => {
             sessionStorage.setItem('science-seconds-waiting', time);
             sessionStorage.setItem('science-id', e.target.id);
             render(allCards(), container);
-            await getOwns();
+
         }
     }
 )
@@ -100,6 +100,7 @@ function timeCounter() {
             sessionStorage.removeItem('science-id');
             response = await fetch("http://localhost:8080/api/science")
             scienceProjects = await response.json();
+            await getOwns();
             render(allCards(), container);
         }
     }

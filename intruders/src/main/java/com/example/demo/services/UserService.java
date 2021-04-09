@@ -1,19 +1,17 @@
 package com.example.demo.services;
 
-import com.example.demo.models.entities.UserEntity;
-import com.example.demo.models.serviceModels.PlanetServiceModel;
-import com.example.demo.models.serviceModels.UserRegisterServiceModel;
+import com.example.demo.models.serviceModels.UserServiceModel;
 
 import java.util.List;
 
 public interface UserService {
     void getFirstOne();
 
-    UserEntity findByUsername(String s);
+    UserServiceModel findByUsername(String s);
 
     boolean hasSameUsername(String username);
 
-    void registerUser(UserRegisterServiceModel userRegisterServiceModel);
+    void registerUser(UserServiceModel userServiceModel);
 
     List<String> getAllUsers();
 

@@ -20,9 +20,23 @@ public class ScienceEntity extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+    public ScienceEntity() {
+    }
+
+    public ScienceEntity(String name, Integer metal, Integer gas, Integer diamond, Integer energy, int time, String description) {
+        this.name = name;
+        this.metal = metal;
+        this.gas = gas;
+        this.diamond = diamond;
+        this.energy = energy;
+        this.time = time;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
+
 
     public ScienceEntity setName(String name) {
         this.name = name;

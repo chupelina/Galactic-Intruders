@@ -1,7 +1,7 @@
 package com.example.demo.models.serviceModels;
 
-import com.example.demo.models.entities.PlanetResourceEntity;
 
+import com.example.demo.models.entities.PlanetResourceEntity;
 
 public class PlanetServiceModel {
 

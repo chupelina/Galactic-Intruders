@@ -1,11 +1,8 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,15 +10,16 @@ import javax.servlet.http.HttpSession;
 public class HomeController {
 
     @GetMapping("/")
-    public String welcome(Authentication authentication, Model model, HttpSession session) {
-        if (authentication == null) {
-            return "index";
-        }
+    public String welcome() {
+        return "index";
+
+    }
+
+    @GetMapping("/home")
+    public String home(Model model, HttpSession session) {
         model.addAttribute("planetModelInfo", session.getAttribute("planetModelInfo"));
         return "home";
     }
-
-
 
 
 }

@@ -24,7 +24,7 @@ class HomeControllerTest {
     @Test
     @WithMockUser(value = "admin", roles = {"USER", "ADMIN"})
     void homeMustReturnValidStatus() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk())
+        mockMvc.perform(MockMvcRequestBuilders.get("/home")).andExpect(status().isOk())
                 .andExpect(view().name("home"));
     }
 

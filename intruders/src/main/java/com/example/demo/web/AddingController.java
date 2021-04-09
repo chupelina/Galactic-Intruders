@@ -2,7 +2,6 @@ package com.example.demo.web;
 
 import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.enums.TypeOfMadeEnum;
-import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.services.ScienceService;
 import com.example.demo.services.ShipService;
 import com.example.demo.services.StationService;

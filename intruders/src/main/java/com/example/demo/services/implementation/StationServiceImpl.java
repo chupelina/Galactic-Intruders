@@ -1,7 +1,12 @@
 package com.example.demo.services.implementation;
 
+import com.example.demo.items.BaseStation;
+import com.example.demo.items.stations.*;
 import com.example.demo.models.bindingModels.AddingBindingModel;
-import com.example.demo.models.entities.*;
+import com.example.demo.models.entities.PlanetResourceEntity;
+import com.example.demo.models.entities.PlanetStationEntity;
+import com.example.demo.models.entities.StationEntity;
+import com.example.demo.models.entities.enums.MaterialEnum;
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.models.viewModels.StationViewModel;
 import com.example.demo.repositories.PlanetStationRepository;
@@ -31,18 +36,10 @@ public class StationServiceImpl implements StationService {
 
     @Override
     public void seed() {
-        StationEntity metalMine = new StationEntity();
-        metalMine.setDescription("increase metal income with 5%").setDiamond(5).setEnergy(13)
-                .setGas(13).setMetal(23).setName("Metal mine").setTime(10);
-        StationEntity gasMine = new StationEntity();
-        gasMine.setDescription("increase gas income with 5%").setDiamond(5).setEnergy(13)
-                .setGas(13).setMetal(23).setName("Gas mine").setTime(10);
-        StationEntity diamondMine = new StationEntity();
-        diamondMine.setDescription("increase diamond income with 5%").setDiamond(5).setEnergy(13)
-                .setGas(13).setMetal(23).setName("Diamond mine").setTime(10);
-        StationEntity energyPanel = new StationEntity();
-        energyPanel.setDescription("increase energy income with 5%").setDiamond(5).setEnergy(13)
-                .setGas(13).setMetal(23).setName("Energy panel").setTime(10);
+        StationEntity metalMine = new MetalStation();
+        StationEntity gasMine = new GasStation();
+        StationEntity diamondMine = new DiamondStation();
+        StationEntity energyPanel = new EnergyStation();
         stationRepository.saveAll(List.of(metalMine, gasMine, diamondMine, energyPanel));
     }
 
@@ -86,13 +83,39 @@ public class StationServiceImpl implements StationService {
     public void updateScienceLevel(Long id) {
         Optional<PlanetStationEntity> planetStations = planetStationRepository.findById(id);
         double level = planetStations.get().getLevel()*0.1+1;
-        StationEntity stationEntity = planetStations.get().getStationEntity();
+       StationEntity stationEntity = planetStations.get().getStationEntity();
         planetStations.get().setLevel(planetStations.get().getLevel()+1);
         planetStationRepository.save(planetStations.get());
-        planetResourceService.decreaseOwns(planetStations.get().getPlanetResourceEntity(),
+        PlanetResourceEntity planetResourceEntity = planetStations.get().getPlanetResourceEntity();
+        planetResourceService.decreaseOwns(planetResourceEntity ,
                 (int)Math.round(stationEntity.getDiamond()*level),
                 (int)Math.round(stationEntity.getEnergy()*level), (int)Math.round(stationEntity.getMetal()*level)
                 , (int)Math.round(stationEntity.getGas()*level));
+        String simpleName = stationEntity.getClass().getSimpleName();
+        if(simpleName.equals("MetalStation")){
+            MetalStation metalStation = (MetalStation) stationEntity;
+           planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,metalStation.increaseMetalCapacity(planetResourceEntity.getMetalCapacity())
+                   ,metalStation.increaseMetalIncomes(planetResourceEntity.getMetalForMin()) ,MaterialEnum.METAL);
+        }else if(simpleName.equals("GasStation")){
+            GasStation gasStation = (GasStation) stationEntity;
+            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity
+                    ,gasStation.increaseGasCapacity(planetResourceEntity.getGasCapacity()),
+                    gasStation.increaseGasIncomes(planetResourceEntity.getGasForMin()),
+                    MaterialEnum.GAS );
+        }else if(simpleName.equals("DiamondStation")){
+            DiamondStation diamondStation = (DiamondStation) stationEntity;
+            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,
+                    diamondStation.increaseDiamondCapacity(planetResourceEntity.getDiamondCapacity()),
+                    diamondStation.increaseDiamondIncomes(planetResourceEntity.getDiamondForMin()),
+                    MaterialEnum.DIAMOND);
+        }else if(simpleName.equals("EnergyStation")){
+            EnergyStation energyStation = (EnergyStation) stationEntity;
+            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,
+                    energyStation.increaseEnergyCapacity(planetResourceEntity.getEnergyCapacity()),
+                    energyStation.increaseEnergyIncomes(planetResourceEntity.getEnergyForMin()),
+                    MaterialEnum.ENERGY);
+        }
+
     }
 
     @Override

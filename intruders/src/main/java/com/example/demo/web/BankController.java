@@ -3,7 +3,6 @@ package com.example.demo.web;
 import com.example.demo.models.bindingModels.BankBindingModel;
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.services.PlanetResourceService;
-import com.example.demo.services.PlanetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Controller
 public class BankController {

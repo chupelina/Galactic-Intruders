@@ -12,4 +12,5 @@ let card = (obj)=> html`<p>Total owns:</p>
     <p>Gas: <span>${obj.gasOwn}</span></p>
     <p>Diamond: <span>${obj.diamondOwn}</span></p>
     <p>Energy: <span >${obj.energyOwn}</span></p>`;
+
 getOwns();

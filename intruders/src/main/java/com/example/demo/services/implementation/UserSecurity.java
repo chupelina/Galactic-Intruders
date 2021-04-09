@@ -2,7 +2,6 @@ package com.example.demo.services.implementation;
 
 import com.example.demo.models.entities.UserEntity;
 import com.example.demo.repositories.UserRepository;
-import com.example.demo.services.PlanetService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

@@ -5,17 +5,26 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-public class UserRegisterServiceModel {
+public class UserServiceModel {
+    private long id;
     private String username;
     private String password;
-    private String confirmPassword;
     private String email;
+
+    public long getId() {
+        return id;
+    }
+
+    public UserServiceModel setId(long id) {
+        this.id = id;
+        return this;
+    }
 
     public String getUsername() {
         return username;
     }
 
-    public UserRegisterServiceModel setUsername(String username) {
+    public UserServiceModel setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -24,17 +33,8 @@ public class UserRegisterServiceModel {
         return password;
     }
 
-    public UserRegisterServiceModel setPassword(String password) {
+    public UserServiceModel setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserRegisterServiceModel setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
         return this;
     }
 
@@ -42,7 +42,7 @@ public class UserRegisterServiceModel {
         return email;
     }
 
-    public UserRegisterServiceModel setEmail(String email) {
+    public UserServiceModel setEmail(String email) {
         this.email = email;
         return this;
     }

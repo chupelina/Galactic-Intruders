@@ -39,7 +39,7 @@ let makeShipCard = (object, time, button) => html`<div class="ships">
 render(allCards(), container);
 let owns = [...document.getElementsByTagName('footer')[0].querySelectorAll('p>span')];
 container.addEventListener('click', async (e) => {
-    if (e.target.innerText == 'Create' && e.target.tagName == 'BUTTON') {
+    if (e.target.innerText == 'Build' && e.target.tagName == 'BUTTON') {
         let count = e.target.parentNode.querySelector('input').value;
 
         let needToBuild = [...e.target.parentNode.children];
@@ -74,7 +74,7 @@ container.addEventListener('click', async (e) => {
         sessionStorage.setItem('ship-seconds-waiting', (seconds * count) + '');
         sessionStorage.setItem('ship-id', e.target.id);
         render(allCards(), container);
-        await getOwns();
+
 
     }
 })
@@ -109,6 +109,7 @@ function timeCounter() {
             sessionStorage.removeItem('ship-id');
             response = await fetch("http://localhost:8080/api/ships");
             army = await response.json();
+            await getOwns();
             render(allCards(), container);
         }
     }

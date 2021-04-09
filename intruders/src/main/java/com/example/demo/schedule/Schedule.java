@@ -18,6 +18,6 @@ public class Schedule {
     @Scheduled(cron = "0 0/1 * 1/1 * ? ")
     @Async
     public void asyncFunc(){
-        planetResourceService.increaseOwns();
+        planetResourceService.increaseOwns(1);
     }
 }

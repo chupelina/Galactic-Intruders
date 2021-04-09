@@ -1,6 +1,5 @@
 package com.example.demo.web;
 
-import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

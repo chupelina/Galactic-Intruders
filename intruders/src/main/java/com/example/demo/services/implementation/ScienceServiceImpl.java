@@ -1,5 +1,7 @@
 package com.example.demo.services.implementation;
 
+import com.example.demo.items.science.EnergyProject;
+import com.example.demo.items.science.WeaponProject;
 import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.PlanetScienceEntity;
@@ -35,23 +37,9 @@ public class ScienceServiceImpl implements ScienceService {
 
     @Override
     public void seed() {
-        ScienceEntity weaponProjectEntity = new ScienceEntity();
-        weaponProjectEntity.setDescription("Your weapons will be with 5% stronger")
-                .setDiamond(20)
-                .setEnergy(15)
-                .setGas(17)
-                .setMetal(50)
-                .setTime(162)
-                .setName("Weapon project");
-        ScienceEntity energyProject = new ScienceEntity();
-        energyProject.setDescription("Your energy will increase with 5%")
-                .setDiamond(10)
-                .setEnergy(0)
-                .setGas(12)
-                .setMetal(35)
-                .setTime(10)
-                .setName("Energy project");
-        scienceRepository.saveAll(List.of(weaponProjectEntity, energyProject));
+        ScienceEntity scienceEntity1=  new EnergyProject();
+        ScienceEntity scienceEntity2 = new WeaponProject();
+        scienceRepository.saveAll(List.of( scienceEntity1, scienceEntity2));
     }
 
     @Override

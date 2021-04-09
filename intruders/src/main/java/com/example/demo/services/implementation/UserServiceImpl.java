@@ -2,10 +2,8 @@ package com.example.demo.services.implementation;
 
 import com.example.demo.models.entities.UserEntity;
 import com.example.demo.models.entities.UserRoleEntity;
-import com.example.demo.models.serviceModels.PlanetServiceModel;
-import com.example.demo.models.serviceModels.UserRegisterServiceModel;
+import com.example.demo.models.serviceModels.UserServiceModel;
 import com.example.demo.repositories.UserRepository;
-import com.example.demo.services.PlanetService;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -16,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,13 +25,15 @@ public class UserServiceImpl implements UserService {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final UserSecurity userSecurity;
+    private final ModelMapper modelMapper;
 
     public UserServiceImpl(UserRepository userRepository, UserRoleService userRoleService,
-                           PasswordEncoder passwordEncoder, UserSecurity userSecurity) {
+                           PasswordEncoder passwordEncoder, UserSecurity userSecurity, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.userRoleService = userRoleService;
         this.passwordEncoder = passwordEncoder;
         this.userSecurity = userSecurity;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -52,8 +51,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity findByUsername(String s) {
-        return userRepository.findFirstByUsername(s).orElseThrow();
+    public UserServiceModel findByUsername(String s) {
+        UserEntity userEntity = userRepository.findFirstByUsername(s).orElseThrow();
+        return modelMapper.map(userEntity, UserServiceModel.class);
     }
 
     @Override
@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(UserRegisterServiceModel userRegisterServiceModel) {
+    public void registerUser(UserServiceModel userServiceModel) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setUsername(userRegisterServiceModel.getUsername())
-                .setPassword(passwordEncoder.encode(userRegisterServiceModel.getPassword()))
-                .setEmail(userRegisterServiceModel.getEmail())
+        userEntity.setUsername(userServiceModel.getUsername())
+                .setPassword(passwordEncoder.encode(userServiceModel.getPassword()))
+                .setEmail(userServiceModel.getEmail())
                 .setRoles(Set.of(userRoleService.getRole("USER")));
         userRepository.save(userEntity);
         UserDetails principal = userSecurity.loadUserByUsername(userEntity.getUsername());

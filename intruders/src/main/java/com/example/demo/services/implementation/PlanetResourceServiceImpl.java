@@ -3,12 +3,12 @@ package com.example.demo.services.implementation;
 import com.example.demo.models.bindingModels.BankBindingModel;
 import com.example.demo.models.entities.PlanetEntity;
 import com.example.demo.models.entities.PlanetResourceEntity;
+import com.example.demo.models.entities.enums.MaterialEnum;
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 import com.example.demo.repositories.PlanetResourceRepository;
 import com.example.demo.services.PlanetResourceService;
 import com.example.demo.services.PlanetService;
 import org.modelmapper.ModelMapper;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -47,6 +47,34 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
         }
         planetResourceEntityForSchedule= planetResourceEntity;
         return modelMapper.map(planetResourceEntity, PlanetResourceModelInfo.class);
+    }
+
+    @Override
+    public void stopScheduleForPlanet() {
+        planetResourceEntityForSchedule=null;
+    }
+
+    @Override
+    public void increaseIncomesAndCapacity(PlanetResourceEntity planetResourceEntity, int increaseCapacity, int increaseIncomes, MaterialEnum material) {
+        switch (material){
+            case GAS:
+                planetResourceEntity.setGasForMin(increaseIncomes);
+                planetResourceEntity.setGasCapacity(increaseCapacity);
+                break;
+            case METAL:
+                planetResourceEntity.setMetalForMin(increaseIncomes);
+                planetResourceEntity.setMetalCapacity(increaseCapacity);
+                break;
+            case ENERGY:
+                planetResourceEntity.setEnergyForMin(increaseIncomes);
+                planetResourceEntity.setEnergyCapacity(increaseCapacity);
+                break;
+            case DIAMOND:
+                planetResourceEntity.setDiamondForMin(increaseIncomes);
+                planetResourceEntity.setDiamondCapacity(increaseCapacity);
+                break;
+        }
+        planetResourceRepository.save(planetResourceEntity);
     }
 
 
@@ -91,18 +119,19 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
 
     }
 
-    public void increaseOwns(){
+    public void increaseOwns(int i){
         if(planetResourceEntityForSchedule==null){
             return;
         }
+
         planetResourceEntityForSchedule.setMetalOwn(increaseSchedule(planetResourceEntityForSchedule.getMetalOwn()
-                , planetResourceEntityForSchedule.getMetalForMin(), planetResourceEntityForSchedule.getMetalCapacity()));
+                , planetResourceEntityForSchedule.getMetalForMin()*i, planetResourceEntityForSchedule.getMetalCapacity()));
         planetResourceEntityForSchedule.setDiamondOwn(increaseSchedule(planetResourceEntityForSchedule.getDiamondOwn()
-                ,planetResourceEntityForSchedule.getDiamondForMin(), planetResourceEntityForSchedule.getDiamondCapacity()));
+                ,planetResourceEntityForSchedule.getDiamondForMin()*i, planetResourceEntityForSchedule.getDiamondCapacity()));
         planetResourceEntityForSchedule.setGasOwn(increaseSchedule(planetResourceEntityForSchedule.getGasOwn()
-                , planetResourceEntityForSchedule.getGasForMin(), planetResourceEntityForSchedule.getGasCapacity()));
+                , planetResourceEntityForSchedule.getGasForMin()*i, planetResourceEntityForSchedule.getGasCapacity()));
         planetResourceEntityForSchedule.setEnergyOwn(increaseSchedule(planetResourceEntityForSchedule.getEnergyOwn()
-                ,planetResourceEntityForSchedule.getEnergyForMin(), planetResourceEntityForSchedule.getEnergyCapacity()));
+                ,planetResourceEntityForSchedule.getEnergyForMin()*i, planetResourceEntityForSchedule.getEnergyCapacity()));
         planetResourceRepository.save(planetResourceEntityForSchedule);
         modelMapper.map(planetResourceEntityForSchedule , PlanetResourceModelInfo.class);
     }

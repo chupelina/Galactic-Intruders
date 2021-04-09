@@ -3,8 +3,8 @@ package com.example.demo.services.implementation;
 import com.example.demo.models.entities.UserEntity;
 import com.example.demo.models.entities.UserRoleEntity;
 import com.example.demo.models.entities.enums.RoleEnum;
+import com.example.demo.models.serviceModels.UserServiceModel;
 import com.example.demo.repositories.UserRepository;
-import com.example.demo.repositories.UserRoleRepository;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +13,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -39,15 +41,18 @@ class UserServiceImplTest {
     PasswordEncoder passwordEncoder;
     @Mock
     UserSecurity userSecurity;
+    @MockBean
+    ModelMapper modelMapper;
 
     @BeforeEach
     public void setUp(){
          admin = new UserRoleEntity();
+         modelMapper = new ModelMapper();
         admin.setRole(RoleEnum.ADMIN);
         UserRoleEntity user = new UserRoleEntity();
         user.setRole(RoleEnum.USER);
         passwordEncoder = new BCryptPasswordEncoder();
-        serviceToTest = new UserServiceImpl(mockedUserRepo, mockedUserRoleService, passwordEncoder, userSecurity);
+        serviceToTest = new UserServiceImpl(mockedUserRepo, mockedUserRoleService, passwordEncoder, userSecurity, modelMapper);
         pesho = new UserEntity();
         pesho.setUsername("pesho").setPassword("111").setEmail("222").setRoles(Set.of(admin));
         gosho = new UserEntity();
@@ -59,7 +64,7 @@ class UserServiceImplTest {
     @Test
     void findByUsernameWhenFound() {
         Mockito.when(mockedUserRepo.findFirstByUsername("gosho")).thenReturn(Optional.of(gosho));
-        UserEntity current = serviceToTest.findByUsername("gosho");
+        UserServiceModel current = modelMapper.map(serviceToTest.findByUsername("gosho"), UserServiceModel.class);
         assertEquals(current.getUsername(), gosho.getUsername());
     }
     @Test
