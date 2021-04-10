@@ -19,10 +19,23 @@ public class ShipEntity extends BaseEntity {
     private Integer diamond;
     private Integer energy;
     @Column(nullable = false)
-    private String time;
+    private Integer time;
     @Column(nullable = false)
     private String description;
 
+    public ShipEntity() {
+    }
+
+    public ShipEntity(String name, String imgUrl, Integer metal, Integer gas, Integer diamond, Integer energy, Integer time, String description) {
+        this.name = name;
+        this.imgUrl = imgUrl;
+        this.metal = metal;
+        this.gas = gas;
+        this.diamond = diamond;
+        this.energy = energy;
+        this.time = time;
+        this.description = description;
+    }
 
     public String getName() {
         return name;
@@ -78,11 +91,11 @@ public class ShipEntity extends BaseEntity {
         return this;
     }
 
-    public String getTime() {
+    public Integer getTime() {
         return time;
     }
 
-    public ShipEntity setTime(String time) {
+    public ShipEntity setTime(Integer time) {
         this.time = time;
         return this;
     }

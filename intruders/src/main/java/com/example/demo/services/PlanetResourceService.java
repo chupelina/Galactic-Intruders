@@ -5,11 +5,13 @@ import com.example.demo.models.entities.PlanetResourceEntity;
 import com.example.demo.models.entities.enums.MaterialEnum;
 import com.example.demo.models.serviceModels.PlanetResourceModelInfo;
 
+import java.util.Map;
+
 public interface PlanetResourceService {
 
     boolean changeMaterials(BankBindingModel bankBindingModel, PlanetResourceModelInfo name);
 
-    void decreaseOwns(PlanetResourceEntity planet , int diamond, int energy, int metal, int gas);
+    PlanetResourceModelInfo decreaseOwns(PlanetResourceModelInfo planetResourceModelInfo , int diamond, int energy, int metal, int gas);
 
     void increaseOwns(int i);
 
@@ -17,5 +19,7 @@ public interface PlanetResourceService {
 
     void stopScheduleForPlanet();
 
-    void increaseIncomesAndCapacity(PlanetResourceEntity planetResourceEntity, int increaseCapacity, int increaseIncomes, MaterialEnum material);
+    void increaseIncomesAndCapacity(PlanetResourceModelInfo planetResourceModelInfo, int increaseCapacity, int increaseIncomes, MaterialEnum material);
+
+    void increaseIncomes(PlanetResourceModelInfo map, Map<MaterialEnum, Integer> increaseIncomes);
 }

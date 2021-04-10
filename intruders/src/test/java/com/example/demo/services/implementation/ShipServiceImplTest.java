@@ -49,7 +49,7 @@ class ShipServiceImplTest {
         shipServiceTest = new ShipServiceImpl(mockedShipRepository, modelMapper, mockedPlanetShipRepository, mockedPlanetResourceService);
         cargoShip = new ShipEntity();
         cargoShip.setDescription("collect your incomes").setDiamond(20).setEnergy(20).setGas(5).setMetal(35).setImgUrl("/img/planets/cargoShip.jpg")
-                .setName("Cargoship").setTime("10").setId(1L);
+                .setName("Cargoship").setTime(10).setId(1L);
         planetResourceEntity = new PlanetResourceEntity();
         planetResourceEntity.setEnergyOwn(10).setEnergyCapacity(10).setEnergyForMin(10)
                 .setGasOwn(10).setGasCapacity(10).setGasForMin(10)

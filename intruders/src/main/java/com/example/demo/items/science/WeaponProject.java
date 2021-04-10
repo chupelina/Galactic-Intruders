@@ -10,7 +10,7 @@ import javax.persistence.Entity;
 public class WeaponProject extends ScienceEntity {
 
     public WeaponProject() {
-       super("Weapon project", 10, 13, 12, 3, 12, "Increase your planet's weapon");
+       super("Weapon project", 10, 13, 12, 3, 12, "Increase your ship's weapons");
     }
 
 

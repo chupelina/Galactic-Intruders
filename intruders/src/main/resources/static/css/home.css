@@ -57,7 +57,7 @@ nav > a:hover, button:hover {
     text-decoration: none;
 }
 
-div {
+div  {
     max-width: 65rem;
     margin-top: 1rem;
     margin-left: 3rem;
@@ -79,14 +79,24 @@ ul {
     width: 13rem;
     display: inline-block;
 }
+form.army > ul {
+    width: 9rem;
+    display: inline-block;
+}
 
 li {
     list-style-type: none;
+    padding-bottom: 10px;
+}
+li:nth-child(2n) {
+    color: #AA95F0;
 }
 
 label {
-    font-size: 1.2rem;
     text-decoration: underline white;
+}
+div.army> ul{
+    width: 9rem;
 }
 
 #planetInfo > p {
@@ -165,7 +175,7 @@ form.bank {
 }
 
 form {
-    width: 56rem;
+    width: 65rem;
     height: auto;
     border: 3px solid #110d26;
     text-align: center;
@@ -218,15 +228,19 @@ small{
     color: #E06B7B;
 }
 
-#battle{
-    text-align: center;
-    width: 400px;
-    height: 80px;
-    margin-bottom: 83%;
-}
-#planetInfo{
-    margin-bottom: 12%;
-}
+
 form.bank{
     margin-bottom: 24%;
 }
+ul> input{
+    margin-bottom: 6px;
+    max-width: 5rem;
+}
+form.army > button{
+    margin-left: 6rem;
+    padding: 16px;
+}
+form.army{
+    margin-bottom: 12rem;
+}
+

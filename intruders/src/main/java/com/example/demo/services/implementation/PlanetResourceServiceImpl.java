@@ -11,6 +11,7 @@ import com.example.demo.services.PlanetService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -55,7 +56,8 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
     }
 
     @Override
-    public void increaseIncomesAndCapacity(PlanetResourceEntity planetResourceEntity, int increaseCapacity, int increaseIncomes, MaterialEnum material) {
+    public void increaseIncomesAndCapacity(PlanetResourceModelInfo planetResourceModelInfo, int increaseCapacity, int increaseIncomes, MaterialEnum material) {
+       PlanetResourceEntity planetResourceEntity = modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class);
         switch (material){
             case GAS:
                 planetResourceEntity.setGasForMin(increaseIncomes);
@@ -73,6 +75,28 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
                 planetResourceEntity.setDiamondForMin(increaseIncomes);
                 planetResourceEntity.setDiamondCapacity(increaseCapacity);
                 break;
+        }
+        planetResourceRepository.save(planetResourceEntity);
+    }
+
+    @Override
+    public void increaseIncomes(PlanetResourceModelInfo map, Map<MaterialEnum, Integer> increaseIncomes) {
+        PlanetResourceEntity planetResourceEntity = modelMapper.map(map, PlanetResourceEntity.class);
+        for (MaterialEnum materialEnum : increaseIncomes.keySet()) {
+            switch (materialEnum){
+                case GAS:
+                    planetResourceEntity.setGasForMin(increaseIncomes.get(materialEnum));
+                    break;
+                case METAL:
+                    planetResourceEntity.setMetalForMin(increaseIncomes.get(materialEnum));
+                    break;
+                case ENERGY:
+                    planetResourceEntity.setEnergyForMin(increaseIncomes.get(materialEnum));
+                    break;
+                case DIAMOND:
+                    planetResourceEntity.setDiamondForMin(increaseIncomes.get(materialEnum));
+                    break;
+            }
         }
         planetResourceRepository.save(planetResourceEntity);
     }
@@ -138,13 +162,15 @@ public class PlanetResourceServiceImpl implements PlanetResourceService {
 
 
     @Override
-    public void decreaseOwns(PlanetResourceEntity planet, int diamond, int energy, int metal, int gas) {
+    public PlanetResourceModelInfo decreaseOwns(PlanetResourceModelInfo planetResourceModelInfo, int diamond, int energy, int metal, int gas) {
+        PlanetResourceEntity planet = modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class);
         planet.setMetalOwn(decreaseMaterials(planet.getMetalOwn(), metal));
         planet.setDiamondOwn(decreaseMaterials(planet.getDiamondOwn() , diamond));
         planet.setGasOwn(decreaseMaterials(planet.getGasOwn() , gas));
         planet.setEnergyOwn(decreaseMaterials(planet.getEnergyOwn() , energy));
         planetResourceRepository.save(planet);
         modelMapper.map(planet , PlanetResourceModelInfo.class);
+        return modelMapper.map(planet, PlanetResourceModelInfo.class);
     }
 
 

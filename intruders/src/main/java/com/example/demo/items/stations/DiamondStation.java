@@ -12,16 +12,4 @@ public class DiamondStation extends BaseStationAbst {
     }
 
 
-    @Override
-    public int increaseDiamondIncomes(int diamond) {
-        return (int)Math.ceil(diamond*1.05);
-    }
-
-
-
-    @Override
-    public int increaseDiamondCapacity(int diamond) {
-        return (int)Math.ceil(diamond*1.1);
-    }
-
 }

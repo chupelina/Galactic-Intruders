@@ -1,6 +1,5 @@
 package com.example.demo.services.implementation;
 
-import com.example.demo.items.BaseStation;
 import com.example.demo.items.stations.*;
 import com.example.demo.models.bindingModels.AddingBindingModel;
 import com.example.demo.models.entities.PlanetResourceEntity;
@@ -49,7 +48,7 @@ public class StationServiceImpl implements StationService {
 
         List<PlanetStationEntity> allStations = planetStationRepository.findAllByPlanetResourceEntity(modelMapper.map(planetResourceModelInfo, PlanetResourceEntity.class));
         List<StationEntity> all = stationRepository.findAll();
-        for (StationEntity stationEntity: all) {
+        for (StationEntity stationEntity : all) {
             PlanetStationEntity planetStationEntity = null;
             for (PlanetStationEntity entity : allStations) {
                 if (entity.getStationEntity().getName().equals(stationEntity.getName())) {
@@ -63,15 +62,15 @@ public class StationServiceImpl implements StationService {
                 planetStationRepository.save(planetStationEntity);
             }
             StationViewModel mapped = new StationViewModel();
-            double currentLevel =planetStationEntity.getLevel()*0.1 +1;
-            mapped.setDiamond((int)Math.round(stationEntity.getDiamond()*currentLevel))
-                    .setEnergy((int)Math.round(stationEntity.getEnergy()*currentLevel))
-                    .setMetal((int)Math.round(stationEntity.getMetal()*currentLevel))
-                    .setGas((int)Math.round(stationEntity.getGas()*currentLevel))
-                    .setTime((int)Math.round(stationEntity.getTime()*currentLevel));
+            double currentLevel = planetStationEntity.getLevel() * 0.1 + 1;
+            mapped.setDiamond((int) Math.round(stationEntity.getDiamond() * currentLevel))
+                    .setEnergy((int) Math.round(stationEntity.getEnergy() * currentLevel))
+                    .setMetal((int) Math.round(stationEntity.getMetal() * currentLevel))
+                    .setGas((int) Math.round(stationEntity.getGas() * currentLevel))
+                    .setTime((int) Math.round(stationEntity.getTime() * currentLevel));
             mapped.setCurrentLevel(planetStationEntity.getLevel())
                     .setDescription(stationEntity.getDescription()).setName(stationEntity.getName());
-            if(planetStationEntity.getId()!=null){
+            if (planetStationEntity.getId() != null) {
                 mapped.setId(planetStationEntity.getId());
             }
             out.add(mapped);
@@ -82,51 +81,51 @@ public class StationServiceImpl implements StationService {
     @Override
     public void updateScienceLevel(Long id) {
         Optional<PlanetStationEntity> planetStations = planetStationRepository.findById(id);
-        double level = planetStations.get().getLevel()*0.1+1;
-       StationEntity stationEntity = planetStations.get().getStationEntity();
-        planetStations.get().setLevel(planetStations.get().getLevel()+1);
+        double level = planetStations.get().getLevel() * 0.1 + 1;
+        StationEntity stationEntity = planetStations.get().getStationEntity();
+        planetStations.get().setLevel(planetStations.get().getLevel() + 1);
         planetStationRepository.save(planetStations.get());
-        PlanetResourceEntity planetResourceEntity = planetStations.get().getPlanetResourceEntity();
-        planetResourceService.decreaseOwns(planetResourceEntity ,
-                (int)Math.round(stationEntity.getDiamond()*level),
-                (int)Math.round(stationEntity.getEnergy()*level), (int)Math.round(stationEntity.getMetal()*level)
-                , (int)Math.round(stationEntity.getGas()*level));
-        String simpleName = stationEntity.getClass().getSimpleName();
-        if(simpleName.equals("MetalStation")){
-            MetalStation metalStation = (MetalStation) stationEntity;
-           planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,metalStation.increaseMetalCapacity(planetResourceEntity.getMetalCapacity())
-                   ,metalStation.increaseMetalIncomes(planetResourceEntity.getMetalForMin()) ,MaterialEnum.METAL);
-        }else if(simpleName.equals("GasStation")){
-            GasStation gasStation = (GasStation) stationEntity;
-            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity
-                    ,gasStation.increaseGasCapacity(planetResourceEntity.getGasCapacity()),
-                    gasStation.increaseGasIncomes(planetResourceEntity.getGasForMin()),
-                    MaterialEnum.GAS );
-        }else if(simpleName.equals("DiamondStation")){
-            DiamondStation diamondStation = (DiamondStation) stationEntity;
-            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,
-                    diamondStation.increaseDiamondCapacity(planetResourceEntity.getDiamondCapacity()),
-                    diamondStation.increaseDiamondIncomes(planetResourceEntity.getDiamondForMin()),
-                    MaterialEnum.DIAMOND);
-        }else if(simpleName.equals("EnergyStation")){
-            EnergyStation energyStation = (EnergyStation) stationEntity;
-            planetResourceService.increaseIncomesAndCapacity(planetResourceEntity,
-                    energyStation.increaseEnergyCapacity(planetResourceEntity.getEnergyCapacity()),
-                    energyStation.increaseEnergyIncomes(planetResourceEntity.getEnergyForMin()),
-                    MaterialEnum.ENERGY);
-        }
+        PlanetResourceModelInfo planetResourceModelInfo = modelMapper.map(planetStations.get().getPlanetResourceEntity(), PlanetResourceModelInfo.class);
+        planetResourceService.decreaseOwns(planetResourceModelInfo,
+                (int) Math.round(stationEntity.getDiamond() * level),
+                (int) Math.round(stationEntity.getEnergy() * level), (int) Math.round(stationEntity.getMetal() * level)
+                , (int) Math.round(stationEntity.getGas() * level));
+        BaseStation baseStation;
+        try {
+            baseStation = (BaseStation) stationEntity;
+            if (baseStation instanceof MetalStation) {
+                planetResourceService.increaseIncomesAndCapacity(planetResourceModelInfo, baseStation.increaseCapacity(planetResourceModelInfo.getMetalCapacity())
+                        , baseStation.increaseIncomes(planetResourceModelInfo.getMetalForMin()), MaterialEnum.METAL);
+            } else if (baseStation instanceof GasStation) {
+                planetResourceService.increaseIncomesAndCapacity(planetResourceModelInfo
+                        , baseStation.increaseCapacity(planetResourceModelInfo.getGasCapacity()),
+                        baseStation.increaseIncomes(planetResourceModelInfo.getGasForMin()),
+                        MaterialEnum.GAS);
+            } else if (baseStation instanceof DiamondStation) {
+                planetResourceService.increaseIncomesAndCapacity(planetResourceModelInfo,
+                        baseStation.increaseCapacity(planetResourceModelInfo.getDiamondCapacity()),
+                        baseStation.increaseIncomes(planetResourceModelInfo.getDiamondForMin()),
+                        MaterialEnum.DIAMOND);
+            } else if (baseStation instanceof EnergyStation) {
+                planetResourceService.increaseIncomesAndCapacity(planetResourceModelInfo,
+                        baseStation.increaseCapacity(planetResourceModelInfo.getEnergyCapacity()),
+                        baseStation.increaseIncomes(planetResourceModelInfo.getEnergyForMin()),
+                        MaterialEnum.ENERGY);
+            }
+        } catch (ClassCastException e) {
 
+        }
     }
 
     @Override
-    public PlanetStationEntity findByPlanetStationEntityId(long id){
+    public PlanetStationEntity findByPlanetStationEntityId(long id) {
         return planetStationRepository.findById(id).orElseThrow();
     }
 
     @Override
     public boolean createNewStation(AddingBindingModel addingBindingModel) {
         Optional<StationEntity> current = stationRepository.findFirstByName(addingBindingModel.getName());
-        if(current.isEmpty()){
+        if (current.isEmpty()) {
             StationEntity stationEntity = modelMapper.map(addingBindingModel, StationEntity.class);
             stationRepository.save(stationEntity);
             return true;

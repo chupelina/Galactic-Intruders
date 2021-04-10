@@ -1,10 +1,6 @@
 package com.example.demo.items.stations;
 
-import com.example.demo.items.BaseStation;
-import com.example.demo.models.entities.BaseEntity;
 import com.example.demo.models.entities.StationEntity;
-
-import javax.persistence.Column;
 
 public class BaseStationAbst extends StationEntity implements BaseStation {
 
@@ -29,45 +25,19 @@ public class BaseStationAbst extends StationEntity implements BaseStation {
         this.description = description;
     }
 
-    @Override
-    public int increaseMetalIncomes(int metal) {
-        return 0;
-    }
 
     @Override
-    public int increaseGasIncomes(int gas) {
-        return 0;
+    public int increaseIncomes(int type) {
+        return (int)Math.ceil(type*1.05);
     }
 
-    @Override
-    public int increaseDiamondIncomes(int diamond) {
-        return 0;
-    }
+
 
     @Override
-    public int increaseEnergyIncomes(int energy) {
-        return 0;
+    public int increaseCapacity(int type) {
+        return (int)Math.ceil(type*1.1);
     }
 
-    @Override
-    public int increaseMetalCapacity(int metal) {
-        return 0;
-    }
-
-    @Override
-    public int increaseGasCapacity(int gas) {
-        return 0;
-    }
-
-    @Override
-    public int increaseDiamondCapacity(int diamond) {
-        return 0;
-    }
-
-    @Override
-    public int increaseEnergyCapacity(int energy) {
-        return 0;
-    }
 
     @Override
     public String getName() {

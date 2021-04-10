@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -10,45 +10,64 @@
 </head>
 
 <body>
-    <header>
-        <h1 class="header"><a href="/">Galactic intruders</a></h1>
-    </header>
+<header>
+    <h1 class="header"><a href="/">Galactic intruders</a></h1>
+</header>
 
-    <main th:object="${planetModelInfo}"   >
-        <th:block th:include="~{fragments/navigation}" ></th:block>
-       <section>
-            <div id="myPlanet">
-                <ul id="materials">
-                    <label>Resources :</label>
-                    <li id="metal">Metal</li>
-                    <li id="gas">Gas</li>
-                    <li id="diamond">Diamond</li>
-                    <li id="energy">Energy</li>
+<main th:object="${planetModelInfo}">
+    <th:block th:include="~{fragments/navigation}"></th:block>
+    <section>
+        <div id="myPlanet">
+            <ul id="materials">
+                <label>Resources :</label>
+                <li id="metal">Metal</li>
+                <li id="gas">Gas</li>
+                <li id="diamond">Diamond</li>
+                <li id="energy">Energy</li>
 
-                </ul>
-                <ul id="incomesFor24">
-                    <label>Capacity:</label>
-                    <li id="metalIncomeForDay" th:text="*{metalCapacity}">100</li>
-                    <li id="gasIncomeForDay" th:text="*{gasCapacity}">100</li>
-                    <li id="diamondIncomeForDay" th:text="*{diamondCapacity}">100</li>
-                    <li id="energyIncomeForDay" th:text="*{energyCapacity}">100</li>
-                </ul>
-                <ul>
-                    <label>Incomes for minute:</label>
-                    <li id="metalIncomeForM" th:text="*{metalForMin}">10</li>
-                    <li id="gasIncomeForM" th:text="*{gasForMin}">10</li>
-                    <li id="diamondIncomeForM" th:text="*{diamondForMin}">10</li>
-                    <li id="energyIncomeForM" th:text="*{energyForMin}">10</li>
-                </ul>
-            </div>
-            <div id="planetInfo">
-                <h2 th:text="*{name}"></h2>
-                <p th:text="*{description}"></p>
-            </div>
-        </section>
-        <img id="planetImg" alt="Image of planet" th:src="*{imgUrl}">
-   </main>
-    <th:block th:include="~{fragments/footer}" ></th:block>
+            </ul>
+            <ul id="incomesFor24">
+                <label>Capacity:</label>
+                <li id="metalIncomeForDay" th:text="*{metalCapacity}">100</li>
+                <li id="gasIncomeForDay" th:text="*{gasCapacity}">100</li>
+                <li id="diamondIncomeForDay" th:text="*{diamondCapacity}">100</li>
+                <li id="energyIncomeForDay" th:text="*{energyCapacity}">100</li>
+            </ul>
+            <ul>
+                <label>Incomes for minute:</label>
+                <li id="metalIncomeForM" th:text="*{metalForMin}">10</li>
+                <li id="gasIncomeForM" th:text="*{gasForMin}">10</li>
+                <li id="diamondIncomeForM" th:text="*{diamondForMin}">10</li>
+                <li id="energyIncomeForM" th:text="*{energyForMin}">10</li>
+            </ul>
+        </div>
+        <div id="planetInfo">
+            <h2 th:text="*{name}"></h2>
+            <p th:text="*{description}"></p>
+        </div>
+        <div class="army" >
+            <ul>
+                <label>Name:</label>
+                <li th:each="s : ${ships}" th:text="${s.name}"></li>
+            </ul>
+            <ul>
+                <label>Count:</label>
+                <li th:each="s : ${ships}" th:text="${s.count}"></li>
+            </ul>
+            <ul>
+                <label>Attack :</label>
+                <li th:each="s : ${ships}" th:text="${s.attack}"></li>
+            </ul>
+            <ul>
+                <label>Health:</label>
+                <li th:each="s : ${ships}" th:text="${s.health}"></li>
+            </ul>
+
+        </div>
+    </section>
+    <img id="planetImg" alt="Image of planet" th:src="*{imgUrl}">
+</main>
+<th:block th:include="~{fragments/footer}"></th:block>
 </body>
 
 </html>

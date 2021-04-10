@@ -18,9 +18,30 @@
     <th:block th:include="~{fragments/navigation}"></th:block>
 
     <section>
-        <div id="battle">
-            <h1>COMING SOON :-)</h1>
-        </div>
+        <form class="army" th:action="@{/battle}" method="POST"  >
+            <ul>
+                <label>Name:</label>
+                <li th:each="s : ${ships}"th:text="${s.name}" ></li>
+            </ul>
+            <ul>
+                <label>Count:</label>
+                <li th:each="s : ${ships}" th:text="${s.count}" ></li>
+            </ul>
+            <ul>
+                <label>Attack :</label>
+                <li th:each="s : ${ships}" th:text="${s.attack}"  ></li>
+            </ul>
+            <ul>
+                <label>Health:</label>
+                <li th:each="s : ${ships}" th:text="${s.health}" ></li>
+            </ul>
+            <ul>
+                <label>Send to battle:</label>
+                <input type="number"th:each="s : ${ships}" />
+            </ul>
+            <button type="submit">Go to Battle</button>
+        </form>
+
     </section>
     <img id="planetImg" alt="Image of planet" th:object="${planetModelInfo}" th:src="*{imgUrl}">
 </main>

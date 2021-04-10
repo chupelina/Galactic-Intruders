@@ -1,6 +1,6 @@
 import {html, render} from 'https://unpkg.com/lit-html?module';
 import {convertTime, sendData} from "./common.js";
-import {getOwns} from"./owns.js"
+import {getOwns} from "./owns.js"
 
 let response = await fetch("http://localhost:8080/api/ships");
 let army = await response.json();
@@ -27,10 +27,12 @@ let makeShipCard = (object, time, button) => html`<div class="ships">
                 <h1>${object.name}</h1>
                 <p>You have: <span>${object.count}</span></p>
                 <p>To create 1 you need to wait <span id="time">${time}</span> and spend</p>
-                <p>${object.metal} metal</p>
-                <p>${object.gas} gas</p>
-                <p>${object.diamond} diamond</p>
-                <p>${object.energy} energy</p>
+                <ul>
+                 <li>${object.metal} metal</li>
+                <li>${object.gas} gas</li>
+                <li>${object.diamond} diamond</li>
+                <li>${object.energy} energy</li>
+                </ul>
                 <p>${object.description}</p>
                 ${button}
             </div>`;

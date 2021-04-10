@@ -74,19 +74,20 @@ public class PlanetResourceServiceTest {
     @Test
     public void decreaseOwnsTest() {
 
-
-        serviceToTest.decreaseOwns(planetResourceEntity, 10, 10, 10, 10);
-        Assertions.assertEquals(planetResourceEntity.getDiamondOwn(), 0);
-        Assertions.assertEquals(planetResourceEntity.getEnergyOwn(), 0);
-        Assertions.assertEquals(planetResourceEntity.getMetalOwn(), 0);
-        Assertions.assertEquals(planetResourceEntity.getGasOwn(), 0);
+        PlanetResourceModelInfo planet = modelMapper.map(planetResourceEntity, PlanetResourceModelInfo.class);
+        PlanetResourceModelInfo planetResourceModelInfo = serviceToTest.decreaseOwns(planet, 10, 10, 10, 10);
+        Assertions.assertEquals(planetResourceModelInfo.getDiamondOwn(), 0);
+        Assertions.assertEquals(planetResourceModelInfo.getEnergyOwn(), 0);
+        Assertions.assertEquals(planetResourceModelInfo.getMetalOwn(), 0);
+        Assertions.assertEquals(planetResourceModelInfo.getGasOwn(), 0);
 
     }
 
     @Test
     public void decreaseOwnsThrowsErrorTest() {
+        PlanetResourceModelInfo planet = modelMapper.map(planetResourceEntity, PlanetResourceModelInfo.class);
         Assertions.assertThrows(IllegalArgumentException.class,
-                () -> serviceToTest.decreaseOwns(planetResourceEntity, 100, 100, 100, 100));
+                () -> serviceToTest.decreaseOwns(planet, 100, 100, 100, 100));
 
     }
 

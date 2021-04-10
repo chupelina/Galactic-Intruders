@@ -97,7 +97,8 @@ public class ScienceServiceImpl implements ScienceService {
         ScienceEntity scienceEntity = planetScience.getScienceEntity();
         planetScience.setLevel(planetScience.getLevel() + 1);
         planetScienceRepository.save(planetScience);
-        planetResourceService.decreaseOwns(planetScience.getPlanetResourceEntity(),
+        PlanetResourceModelInfo map = modelMapper.map(planetScience.getPlanetResourceEntity(), PlanetResourceModelInfo.class);
+        planetResourceService.decreaseOwns(map,
                 (int) Math.round(scienceEntity.getDiamond() * level),
                 (int) Math.round(scienceEntity.getEnergy() * level), (int) Math.round(scienceEntity.getMetal() * level)
                 , (int) Math.round(scienceEntity.getGas() * level));
