@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta th:name="_csrf" th:content="${_csrf.token}"/>
+    <meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="/css/home.css">
+    <script type="module" src="/js/battle.js"></script>
     <title>Battle</title>
 </head>
 
@@ -18,12 +21,12 @@
     <th:block th:include="~{fragments/navigation}"></th:block>
 
     <section>
-        <form class="army" th:action="@{/battle}" method="POST"  >
-            <ul>
+        <form class="army"  >
+            <ul class="ship-name">
                 <label>Name:</label>
                 <li th:each="s : ${ships}"th:text="${s.name}" ></li>
             </ul>
-            <ul>
+            <ul class="ship-count">
                 <label>Count:</label>
                 <li th:each="s : ${ships}" th:text="${s.count}" ></li>
             </ul>
@@ -35,13 +38,18 @@
                 <label>Health:</label>
                 <li th:each="s : ${ships}" th:text="${s.health}" ></li>
             </ul>
-            <ul>
+            <ul class="ship-send-to-battle">
                 <label>Send to battle:</label>
                 <input type="number"th:each="s : ${ships}" />
             </ul>
             <button type="submit">Go to Battle</button>
         </form>
-
+        <div th:if="${winner}">
+            <p>Congratulations you win</p>
+        </div>
+        <div th:unless="${winner}">
+            <p>Sorry you lose</p>
+        </div>
     </section>
     <img id="planetImg" alt="Image of planet" th:object="${planetModelInfo}" th:src="*{imgUrl}">
 </main>

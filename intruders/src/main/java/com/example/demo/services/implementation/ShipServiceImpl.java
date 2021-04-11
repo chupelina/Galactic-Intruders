@@ -15,7 +15,6 @@ import com.example.demo.services.PlanetResourceService;
 import com.example.demo.services.ShipService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,5 +124,37 @@ public class ShipServiceImpl implements ShipService {
             army.add(shipModel);
         }
         return army;
+    }
+
+    @Override
+    public List<ShipModel> createEnemy() {
+        List<ShipModel> enemy = new ArrayList<>();
+       ShipEntity destroyer = new Destroyer();
+       ShipEntity guardian = new Guardian();
+        ShipModel dest = modelMapper.map(destroyer, ShipModel.class);
+        ShipModel guard = modelMapper.map(guardian, ShipModel.class);
+        dest.setGoneToBattle(3);
+        guard.setGoneToBattle(4);
+        enemy.add(dest);
+        enemy.add(guard);
+        return enemy;
+    }
+
+    @Override
+    public void decreaseArmy(String ships, PlanetResourceModelInfo planetModelInfo) {
+        String[] gone = ships.split("-");
+        List<PlanetShipEntity> planetShipEntityList = planetShipRepository.findAllByPlanetResourceEntity(modelMapper.map(planetModelInfo, PlanetResourceEntity.class));
+        for (PlanetShipEntity planetShipEntity : planetShipEntityList) {
+            for (String s : gone) {
+                String[] split = s.split(":");
+                if(planetShipEntity.getShipEntity().getName().equals(split[0])){
+                    planetShipEntity.setCountShips(planetShipEntity.getCountShips()-Integer.parseInt(split[2]));
+                    planetShipRepository.save(planetShipEntity);
+                    break;
+                }
+            }
+
+
+        }
     }
 }

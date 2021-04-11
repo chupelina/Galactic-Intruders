@@ -10,11 +10,13 @@ import java.util.Map;
 public abstract class BaseShip extends ShipEntity {
     private Integer health;
     private Integer attack;
+    private boolean isDead;
 
-    public BaseShip(String name, String imgUrl, Integer metal, Integer gas, Integer diamond, Integer energy, Integer time, String description, int health, int attack) {
+    public BaseShip(String name, String imgUrl, Integer metal, Integer gas, Integer diamond, Integer energy, Integer time, String description, int health, int attack, boolean isDead) {
         super(name, imgUrl, metal, gas, diamond, energy, time, description);
         this.attack=attack;
         this.health=health;
+        this.isDead = isDead;
     }
 
     public Map<MaterialEnum, Integer> increaseIncomes(int count,int metal, int gas, int diamond, int energy) {
@@ -36,6 +38,15 @@ public abstract class BaseShip extends ShipEntity {
 
     public BaseShip setAttack(Integer attack) {
         this.attack = attack;
+        return this;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public BaseShip setDead(boolean dead) {
+        isDead = dead;
         return this;
     }
 }

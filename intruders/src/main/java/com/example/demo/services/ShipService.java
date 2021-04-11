@@ -20,4 +20,8 @@ public interface ShipService {
     PlanetShipEntity returnPlanetShipEntityById(long id);
 
     List<ShipModel> getArmy(PlanetResourceModelInfo planetModelInfo);
+
+    List<ShipModel> createEnemy();
+
+    void decreaseArmy(String ships, PlanetResourceModelInfo planetModelInfo);
 }

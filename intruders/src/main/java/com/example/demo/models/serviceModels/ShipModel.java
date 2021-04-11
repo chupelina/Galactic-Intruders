@@ -6,6 +6,16 @@ public class ShipModel {
     private int attack;
     private int health;
     private int goneToBattle;
+    private boolean isDead;
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public ShipModel setDead(boolean dead) {
+        isDead = dead;
+        return this;
+    }
 
     public int getGoneToBattle() {
         return goneToBattle;

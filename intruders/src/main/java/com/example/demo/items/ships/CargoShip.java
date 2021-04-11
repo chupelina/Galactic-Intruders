@@ -11,7 +11,7 @@ public class CargoShip extends BaseShip {
 
     public CargoShip() {
         super("CargoShip", "../img/ships/cargoship.jpg", 15, 1, 13, 20, 13,
-                "Increase your incomes with 5% for every one", 100, 1);
+                "Increase your incomes with 5% for every one", 100, 1, false);
     }
 
     @Override
